@@ -15,7 +15,7 @@
 
    > 用这个模板把 `我的计划书.pptx` 做成 pitch。
 
-3. agent 会自动读取 `skills/pitch-builder/SKILL.md`,依次:
+3. agent 会自动读取 `skills/pitch-builder/SKILL.md`(英文主版,规则写成 MUST / IF-THEN,中文对照见 `SKILL.zh.md`),依次:
    - 拆解 PPT(文字、演讲者备注、表格、图表数据、图片)
    - **先给你一份章节大纲确认**
    - 写 `deck/deck.json` → 校验 → 打包成 `dist/pitch.html`
@@ -44,7 +44,7 @@ deck/deck.json        你的内容(唯一需要改的文件)
 deck/assets/          图片、logo
 engine/               播放器和样式(不用改)
 tools/                拆 PPT、校验、打包、渲染检查
-skills/pitch-builder/ 给 agent 的完整说明
+skills/pitch-builder/ 给 agent 的操作手册(SKILL.md 英文主版 + SKILL.zh.md 中文对照)
 examples/tradefons/   示例 deck
 ```
 

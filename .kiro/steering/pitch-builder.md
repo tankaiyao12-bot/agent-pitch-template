@@ -4,9 +4,11 @@ inclusion: always
 
 # pitch-builder
 
-This workspace builds an interactive pitch (one local HTML file) from a PowerPoint.
-Follow #[[file:skills/pitch-builder/SKILL.md]] for the whole workflow, block reference and writing rules.
+This workspace builds an interactive pitch (ONE local HTML file) from a PowerPoint.
+MUST follow #[[file:skills/pitch-builder/SKILL.md]] step by step: workflow, slot table, outline read-back, block reference and hard rules. (`skills/pitch-builder/SKILL.zh.md` is the Chinese companion; the English file is authoritative.)
 
-- Edit only `deck/deck.json` and `deck/assets/`; never `engine/` or `tools/`.
-- Confirm the chapter outline with the user before writing the deck.
-- Validate with `python3 tools/validate.py`, build with `python3 tools/build.py`.
+- MUST edit only `deck/deck.json` and `deck/assets/`; NEVER `engine/`, `tools/`, `skills/` or `examples/`.
+- MUST wait for the user to confirm the chapter outline before writing the deck.
+- NEVER invent numbers; IF a source is missing THEN ask.
+- Reply in the user's language.
+- Done only when `python3 tools/validate.py` has 0 errors and `python3 tools/build.py` succeeds.

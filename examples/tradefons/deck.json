@@ -1,14 +1,23 @@
 {
   "meta": {
-    "title": {"zh": "tradefons 商业计划(示例)", "en": "tradefons pitch (example)"},
-    "langs": ["zh", "en"],
+    "title": {
+      "zh": "tradefons 商业计划(示例)",
+      "en": "tradefons pitch (example)"
+    },
+    "langs": [
+      "zh",
+      "en"
+    ],
     "defaultLang": "zh",
     "output": "tradefons-example",
     "note": "Example deck based on the tradefons pitch, with internal figures removed. Market figures are public data read on 2026-10-27 and are here to show the format."
   },
   "brand": {
     "name": "tradefons",
-    "agentName": {"zh": "tradefons agent", "en": "tradefons agent"},
+    "agentName": {
+      "zh": "tradefons agent",
+      "en": "tradefons agent"
+    },
     "logo": "assets/logo.svg",
     "accent": "#a6f20b",
     "accentDark": "#4f7a00"
@@ -16,215 +25,1187 @@
   "chapters": [
     {
       "id": "open",
-      "toc": {"zh": "开场", "en": "Opening"},
+      "toc": {
+        "zh": "开场",
+        "en": "Opening"
+      },
       "say": [
-        {"zh": "先问你一个问题:<b>下一批链上交易者,是人,还是 agent?</b>", "en": "One question first: <b>is the next wave of on-chain traders human, or agents?</b>"},
-        {"zh": "我的答案是:<b>两者同场</b>。人定规则,agent 盯盘,钱在同一个引擎里执行。tradefons 就是这个会合点。", "en": "My answer: <b>both, at the same table</b>. People set the rules, agents watch the tape, one engine executes. tradefons is that meeting point."}
+        {
+          "zh": "先问你一个问题:<b>下一批链上交易者,是人,还是 agent?</b>",
+          "en": "One question first: <b>is the next wave of on-chain traders human, or agents?</b>"
+        },
+        {
+          "zh": "我的答案是:<b>两者同场</b>。人定规则,agent 盯盘,钱在同一个引擎里执行。tradefons 就是这个会合点。",
+          "en": "My answer: <b>both, at the same table</b>. People set the rules, agents watch the tape, one engine executes. tradefons is that meeting point."
+        }
       ],
-      "ask": [{"zh": "我们在什么位置?", "en": "Where do you sit?"}],
+      "ask": [
+        {
+          "zh": "我们在什么位置?",
+          "en": "Where do you sit?"
+        }
+      ],
       "blocks": [
-        {"type": "title", "eyebrow": "tradefons · BSC", "h": {"zh": "人和 agent <em>同场交易</em>,<br>从 BSC 开始。", "en": "People and agents <em>trading side by side</em>,<br>starting on BSC."}, "lede": {"zh": "一键跟带单人,8 折上车他们开的团;把自己的 AI agent 接进来,在开团那几分钟里替你表态。", "en": "Follow a lead in one tap, join their groups at 20% off, and let your own AI agent make the call in the few minutes a group is open."}},
-        {"type": "tiles", "items": [
-          {"label": {"zh": "链", "en": "Chain"}, "value": "BSC"},
-          {"label": {"zh": "结算", "en": "Settles in"}, "value": "BNB"},
-          {"label": {"zh": "报名窗口", "en": "Group window"}, "count": 3, "suffix": " min"},
-          {"label": {"zh": "交易费", "en": "Trade fee"}, "count": 1, "suffix": "%", "hl": true, "note": {"zh": "按成交收取", "en": "charged per trade"}}
-        ]}
+        {
+          "type": "title",
+          "eyebrow": "tradefons · BSC",
+          "h": {
+            "zh": "人和 agent <em>同场交易</em>,<br>从 BSC 开始。",
+            "en": "People and agents <em>trading side by side</em>,<br>starting on BSC."
+          },
+          "lede": {
+            "zh": "一键跟带单人,8 折上车他们开的团;把自己的 AI agent 接进来,在开团那几分钟里替你表态。",
+            "en": "Follow a lead in one tap, join their groups at 20% off, and let your own AI agent make the call in the few minutes a group is open."
+          }
+        },
+        {
+          "type": "tiles",
+          "items": [
+            {
+              "label": {
+                "zh": "链",
+                "en": "Chain"
+              },
+              "value": "BSC"
+            },
+            {
+              "label": {
+                "zh": "结算",
+                "en": "Settles in"
+              },
+              "value": "BNB"
+            },
+            {
+              "label": {
+                "zh": "报名窗口",
+                "en": "Group window"
+              },
+              "count": 3,
+              "suffix": " min"
+            },
+            {
+              "label": {
+                "zh": "交易费",
+                "en": "Trade fee"
+              },
+              "count": 1,
+              "suffix": "%",
+              "hl": true,
+              "note": {
+                "zh": "按成交收取",
+                "en": "charged per trade"
+              }
+            }
+          ]
+        },
+        {
+          "type": "source",
+          "text": {
+            "zh": "产品规则与费率(公开)",
+            "en": "public product rules and fees"
+          },
+          "date": "2026-10-27"
+        }
       ]
     },
     {
       "id": "position",
-      "toc": {"zh": "我们的位置", "en": "Our position"},
+      "toc": {
+        "zh": "我们的位置",
+        "en": "Our position"
+      },
       "tool": "draw_map(\"BNB Chain → Agent ID → tradefons\")",
       "say": [
-        {"zh": "画一张图你就明白我们在哪。", "en": "One picture shows where we sit."},
-        {"zh": "最外圈是 <b>BNB Chain 和币安生态</b>,中间是 <b>Agent ID 生态</b>,圆心是 <b>tradefons 引擎</b>。四个板块围着圆心,互相导流。", "en": "The outer ring is <b>BNB Chain and Binance</b>, the middle ring the <b>Agent ID ecosystem</b>, and the center the <b>tradefons engine</b>. Four boards sit around it and feed each other."}
+        {
+          "zh": "画一张图你就明白我们在哪。",
+          "en": "One picture shows where we sit."
+        },
+        {
+          "zh": "最外圈是 <b>BNB Chain 和币安生态</b>,中间是 <b>Agent ID 生态</b>,圆心是 <b>tradefons 引擎</b>。四个板块围着圆心,互相导流。",
+          "en": "The outer ring is <b>BNB Chain and Binance</b>, the middle ring the <b>Agent ID ecosystem</b>, and the center the <b>tradefons engine</b>. Four boards sit around it and feed each other."
+        }
       ],
-      "ask": [{"zh": "为什么是现在?", "en": "Why now?"}],
+      "ask": [
+        {
+          "zh": "为什么是现在?",
+          "en": "Why now?"
+        }
+      ],
       "blocks": [
-        {"type": "title", "eyebrow": {"zh": "我们的位置", "en": "Where we sit"}, "h": {"zh": "不是又一个交易所,<br>是人和 agent 的<em>会合点</em>。", "en": "Not another exchange.<br>The <em>meeting point</em> of people and agents."}},
-        {"type": "rings",
+        {
+          "type": "title",
+          "eyebrow": {
+            "zh": "我们的位置",
+            "en": "Where we sit"
+          },
+          "h": {
+            "zh": "不是又一个交易所,<br>是人和 agent 的<em>会合点</em>。",
+            "en": "Not another exchange.<br>The <em>meeting point</em> of people and agents."
+          }
+        },
+        {
+          "type": "rings",
           "rings": [
-            {"label": {"zh": "BNB Chain · 币安生态", "en": "BNB Chain · Binance"}, "sub": {"zh": "广场 · Agentic Wallet · 流动性", "en": "Square · Agentic Wallet · liquidity"}, "color": "#e0a800"},
-            {"label": {"zh": "Agent ID 生态", "en": "Agent ID ecosystem"}, "sub": {"zh": "发射平台:Ptah · Gang", "en": "launchpads: Ptah · Gang"}, "color": "#0a84d6"}
+            {
+              "label": {
+                "zh": "BNB Chain · 币安生态",
+                "en": "BNB Chain · Binance"
+              },
+              "sub": {
+                "zh": "广场 · Agentic Wallet · 流动性",
+                "en": "Square · Agentic Wallet · liquidity"
+              },
+              "color": "#e0a800"
+            },
+            {
+              "label": {
+                "zh": "Agent ID 生态",
+                "en": "Agent ID ecosystem"
+              },
+              "sub": {
+                "zh": "发射平台:Ptah · Gang",
+                "en": "launchpads: Ptah · Gang"
+              },
+              "color": "#0a84d6"
+            }
           ],
-          "center": {"label": "tradefons", "sub": {"zh": "引擎 · 会合点", "en": "engine"}},
+          "center": {
+            "label": "tradefons",
+            "sub": {
+              "zh": "引擎 · 会合点",
+              "en": "engine"
+            }
+          },
           "chips": [
-            {"label": {"zh": "① 社交", "en": "① Social"}, "sub": {"zh": "流量进来", "en": "traffic in"}, "color": "#7a5cf0"},
-            {"label": {"zh": "② 交易", "en": "② Trading"}, "sub": {"zh": "流量成交", "en": "traffic trades"}, "color": "#e08a00"},
-            {"label": {"zh": "③ agent", "en": "③ Agents"}, "sub": {"zh": "操作压成一句话", "en": "ops in one line"}, "color": "#0f9e93"},
-            {"label": {"zh": "④ NFT", "en": "④ NFT"}, "sub": {"zh": "身份变成资产", "en": "identity as assets"}, "color": "#d6409f"}
+            {
+              "label": {
+                "zh": "① 社交",
+                "en": "① Social"
+              },
+              "sub": {
+                "zh": "流量进来",
+                "en": "traffic in"
+              },
+              "color": "#7a5cf0"
+            },
+            {
+              "label": {
+                "zh": "② 交易",
+                "en": "② Trading"
+              },
+              "sub": {
+                "zh": "流量成交",
+                "en": "traffic trades"
+              },
+              "color": "#e08a00"
+            },
+            {
+              "label": {
+                "zh": "③ agent",
+                "en": "③ Agents"
+              },
+              "sub": {
+                "zh": "操作压成一句话",
+                "en": "ops in one line"
+              },
+              "color": "#0f9e93"
+            },
+            {
+              "label": {
+                "zh": "④ NFT",
+                "en": "④ NFT"
+              },
+              "sub": {
+                "zh": "身份变成资产",
+                "en": "identity as assets"
+              },
+              "color": "#d6409f"
+            }
           ],
           "legend": [
-            {"label": "BNB Chain", "text": {"zh": "我们借的势:链、流量、钱包", "en": "what we build on: chain, traffic, wallets"}, "color": "#e0a800"},
-            {"label": "Agent ID", "text": {"zh": "可核验的 agent 身份,我们的用户池", "en": "verifiable agent identities: our user pool"}, "color": "#0a84d6"},
-            {"label": "tradefons", "text": {"zh": "规则 + 决定 + 执行在一处", "en": "rules, decisions and execution in one place"}, "color": "#4f7a00"}
+            {
+              "label": "BNB Chain",
+              "text": {
+                "zh": "我们借的势:链、流量、钱包",
+                "en": "what we build on: chain, traffic, wallets"
+              },
+              "color": "#e0a800"
+            },
+            {
+              "label": "Agent ID",
+              "text": {
+                "zh": "可核验的 agent 身份,我们的用户池",
+                "en": "verifiable agent identities: our user pool"
+              },
+              "color": "#0a84d6"
+            },
+            {
+              "label": "tradefons",
+              "text": {
+                "zh": "规则 + 决定 + 执行在一处",
+                "en": "rules, decisions and execution in one place"
+              },
+              "color": "#4f7a00"
+            }
           ]
         }
       ]
     },
     {
       "id": "momentum",
-      "toc": {"zh": "风口与势能", "en": "Momentum"},
+      "toc": {
+        "zh": "风口与势能",
+        "en": "Momentum"
+      },
       "tool": "search_market(\"Agent ID · BNB Chain\")",
       "say": [
-        {"zh": "势能已经出来了:Agent ID <b>8 天注册 <span class=\"k\">118,282</span> 个</b>。", "en": "The momentum is here: <b><span class=\"k\">118,282</span> Agent IDs in 8 days</b>."},
-        {"zh": "只对 Agent ID 开放的 NFT 集合,持有人已经上万。", "en": "Agent-ID-only NFT collections already have tens of thousands of holders."}
+        {
+          "zh": "势能已经出来了:Agent ID <b>8 天注册 <span class=\"k\">118,282</span> 个</b>。",
+          "en": "The momentum is here: <b><span class=\"k\">118,282</span> Agent IDs in 8 days</b>."
+        },
+        {
+          "zh": "只对 Agent ID 开放的 NFT 集合,持有人已经上万。",
+          "en": "Agent-ID-only NFT collections already have tens of thousands of holders."
+        }
       ],
       "ask": [
-        {"zh": "这些数字哪来的?", "en": "Where are these numbers from?", "reply": {"zh": "Agent ID 每日注册来自 Ptah 的 Agents 注册表页;集合持有人来自链上索引。读取时间 2026-10-27。", "en": "Daily Agent IDs come from Ptah's Agents registry page; collection holders from an on-chain index. Read 2026-10-27."}},
-        {"zh": "我们怎么接住这股流量?", "en": "How do you catch that traffic?"}
+        {
+          "zh": "这些数字哪来的?",
+          "en": "Where are these numbers from?",
+          "reply": {
+            "zh": "Agent ID 每日注册来自 Ptah 的 Agents 注册表页;集合持有人来自链上索引。读取时间 2026-10-27。",
+            "en": "Daily Agent IDs come from Ptah's Agents registry page; collection holders from an on-chain index. Read 2026-10-27."
+          }
+        },
+        {
+          "zh": "我们怎么接住这股流量?",
+          "en": "How do you catch that traffic?"
+        }
       ],
       "blocks": [
-        {"type": "title", "eyebrow": {"zh": "风口与势能", "en": "Momentum"}, "h": {"zh": "agent 有了身份,<br>还缺一个<em>交易场</em>。", "en": "Agents have an identity.<br>They still need a <em>venue</em>."}},
-        {"type": "grid", "cols": 2, "blocks": [
-          {"type": "panel", "heading": {"zh": "Agent ID 每日新增 · 累计", "en": "Agent ID daily adds · cumulative"}, "note": "UTC", "blocks": [
-            {"type": "columns", "cumulative": true, "partialLast": true, "items": [["10-19", 1], ["10-20", 31454], ["10-21", 13784], ["10-22", 30518], ["10-23", 14391], ["10-24", 6438], ["10-25", 6622], ["10-26", 10378], ["10-27", 4696]]}
-          ]},
-          {"type": "panel", "heading": {"zh": "AgentID NFT 集合 · 持有人", "en": "AgentID NFT collections · holders"}, "blocks": [
-            {"type": "donut", "center": {"label": {"zh": "8 个集合 · 持有人", "en": "holders · 8 collections"}}, "items": [
-              {"label": "ANAKA", "value": 6982}, {"label": "BBRN", "value": 3913}, {"label": "APID", "value": 2722}, {"label": "BIBI", "value": 1668},
-              {"label": "RELIC", "value": 1443}, {"label": "LOOM", "value": 1294}, {"label": "TAI", "value": 1223}, {"label": "KOI", "value": 106}
-            ]}
-          ]}
-        ]},
-        {"type": "source", "text": {"zh": "ptah.trade/agents · 链上索引", "en": "ptah.trade/agents · on-chain index"}, "date": "2026-10-27"}
+        {
+          "type": "title",
+          "eyebrow": {
+            "zh": "风口与势能",
+            "en": "Momentum"
+          },
+          "h": {
+            "zh": "agent 有了身份,<br>还缺一个<em>交易场</em>。",
+            "en": "Agents have an identity.<br>They still need a <em>venue</em>."
+          }
+        },
+        {
+          "type": "grid",
+          "cols": 2,
+          "blocks": [
+            {
+              "type": "panel",
+              "heading": {
+                "zh": "Agent ID 每日新增 · 累计",
+                "en": "Agent ID daily adds · cumulative"
+              },
+              "note": "UTC",
+              "blocks": [
+                {
+                  "type": "columns",
+                  "cumulative": true,
+                  "partialLast": true,
+                  "items": [
+                    [
+                      "10-19",
+                      1
+                    ],
+                    [
+                      "10-20",
+                      31454
+                    ],
+                    [
+                      "10-21",
+                      13784
+                    ],
+                    [
+                      "10-22",
+                      30518
+                    ],
+                    [
+                      "10-23",
+                      14391
+                    ],
+                    [
+                      "10-24",
+                      6438
+                    ],
+                    [
+                      "10-25",
+                      6622
+                    ],
+                    [
+                      "10-26",
+                      10378
+                    ],
+                    [
+                      "10-27",
+                      4696
+                    ]
+                  ]
+                }
+              ]
+            },
+            {
+              "type": "panel",
+              "heading": {
+                "zh": "AgentID NFT 集合 · 持有人",
+                "en": "AgentID NFT collections · holders"
+              },
+              "blocks": [
+                {
+                  "type": "donut",
+                  "center": {
+                    "label": {
+                      "zh": "8 个集合 · 持有人",
+                      "en": "holders · 8 collections"
+                    }
+                  },
+                  "items": [
+                    {
+                      "label": "ANAKA",
+                      "value": 6982
+                    },
+                    {
+                      "label": "BBRN",
+                      "value": 3913
+                    },
+                    {
+                      "label": "APID",
+                      "value": 2722
+                    },
+                    {
+                      "label": "BIBI",
+                      "value": 1668
+                    },
+                    {
+                      "label": "RELIC",
+                      "value": 1443
+                    },
+                    {
+                      "label": "LOOM",
+                      "value": 1294
+                    },
+                    {
+                      "label": "TAI",
+                      "value": 1223
+                    },
+                    {
+                      "label": "KOI",
+                      "value": 106
+                    }
+                  ]
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "type": "source",
+          "text": {
+            "zh": "ptah.trade/agents · 链上索引",
+            "en": "ptah.trade/agents · on-chain index"
+          },
+          "date": "2026-10-27"
+        }
       ]
     },
     {
       "id": "social",
-      "toc": {"zh": "① 社交", "en": "① Social"},
+      "toc": {
+        "zh": "① 社交",
+        "en": "① Social"
+      },
       "say": [
-        {"zh": "第一块是<b>社交</b>:注意力从这里进来。", "en": "Board one is <b>social</b>: attention comes in here."},
-        {"zh": "开团帖自动同步到币安广场,帖子末尾一句「复制给我的 agent」,读者一键带进来。", "en": "Group posts sync to Binance Square, ending with \"copy this to my agent\" so readers come in with one tap."}
+        {
+          "zh": "第一块是<b>社交</b>:注意力从这里进来。",
+          "en": "Board one is <b>social</b>: attention comes in here."
+        },
+        {
+          "zh": "开团帖自动同步到币安广场,帖子末尾一句「复制给我的 agent」,读者一键带进来。",
+          "en": "Group posts sync to Binance Square, ending with \"copy this to my agent\" so readers come in with one tap."
+        }
       ],
       "blocks": [
-        {"type": "title", "eyebrow": {"zh": "① 社交", "en": "① Social"}, "h": {"zh": "注意力<em>从这里进来</em>。", "en": "Attention <em>comes in here</em>."}},
-        {"type": "scenes", "color": "#7a5cf0", "items": [
-          {"name": {"zh": "广场刷到一条开团帖", "en": "A group post on Square"}, "who": {"zh": "广场读者", "en": "Square readers"}, "what": {"zh": "开团帖 / 结果帖带话题标签自动发出", "en": "group and result posts go out with tags"}, "place": {"zh": "广场和链上交易之间的入口", "en": "the door between Square and on-chain trading"}, "status": "prev"},
-          {"name": {"zh": "打开动态", "en": "Open the feed"}, "who": {"zh": "人和 agent", "en": "people and agents"}, "what": {"zh": "买卖观点在同一条流里,署名 xxx.ai", "en": "trade calls in one stream, signed xxx.ai"}, "place": {"zh": "AgentID 的社交广场", "en": "the AgentID square"}, "status": "prev"},
-          {"name": {"zh": "喊单带来成交", "en": "Calls bring trades"}, "who": {"zh": "喊单的人 / agent", "en": "callers / agents"}, "what": {"zh": "喊单带来跟单,推荐人拿手续费 25%", "en": "calls bring followers; referrers earn 25% of fees"}, "place": {"zh": "把注意力变成交易额", "en": "turn attention into volume"}, "status": "live"}
-        ]}
+        {
+          "type": "title",
+          "eyebrow": {
+            "zh": "① 社交",
+            "en": "① Social"
+          },
+          "h": {
+            "zh": "注意力<em>从这里进来</em>。",
+            "en": "Attention <em>comes in here</em>."
+          }
+        },
+        {
+          "type": "scenes",
+          "color": "#7a5cf0",
+          "items": [
+            {
+              "name": {
+                "zh": "广场刷到一条开团帖",
+                "en": "A group post on Square"
+              },
+              "who": {
+                "zh": "广场读者",
+                "en": "Square readers"
+              },
+              "what": {
+                "zh": "开团帖 / 结果帖带话题标签自动发出",
+                "en": "group and result posts go out with tags"
+              },
+              "place": {
+                "zh": "广场和链上交易之间的入口",
+                "en": "the door between Square and on-chain trading"
+              },
+              "status": "prev"
+            },
+            {
+              "name": {
+                "zh": "打开动态",
+                "en": "Open the feed"
+              },
+              "who": {
+                "zh": "人和 agent",
+                "en": "people and agents"
+              },
+              "what": {
+                "zh": "买卖观点在同一条流里,署名 xxx.ai",
+                "en": "trade calls in one stream, signed xxx.ai"
+              },
+              "place": {
+                "zh": "AgentID 的社交广场",
+                "en": "the AgentID square"
+              },
+              "status": "prev"
+            },
+            {
+              "name": {
+                "zh": "喊单带来成交",
+                "en": "Calls bring trades"
+              },
+              "who": {
+                "zh": "喊单的人 / agent",
+                "en": "callers / agents"
+              },
+              "what": {
+                "zh": "喊单带来跟单,推荐人拿手续费 25%",
+                "en": "calls bring followers; referrers earn 25% of fees"
+              },
+              "place": {
+                "zh": "把注意力变成交易额",
+                "en": "turn attention into volume"
+              },
+              "status": "live"
+            }
+          ]
+        }
       ]
     },
     {
       "id": "trade",
-      "toc": {"zh": "② 交易", "en": "② Trading"},
+      "toc": {
+        "zh": "② 交易",
+        "en": "② Trading"
+      },
       "say": [
-        {"zh": "看 GANG:上线首日成交 <b>$4.03M</b>,六天收盘涨了约 <b>7.6 倍</b>。", "en": "Look at GANG: <b>$4.03M</b> traded on day one, closes up about <b>7.6×</b> in six days."},
-        {"zh": "这样的币出现时,带单人在 tradefons 开团,跟单的人和 agent 在 3 分钟内上车。", "en": "When a coin like this appears, a lead opens a group on tradefons and followers get in within 3 minutes."}
+        {
+          "zh": "看 GANG:上线首日成交 <b>$4.03M</b>,六天收盘涨了约 <b>7.6 倍</b>。",
+          "en": "Look at GANG: <b>$4.03M</b> traded on day one, closes up about <b>7.6×</b> in six days."
+        },
+        {
+          "zh": "这样的币出现时,带单人在 tradefons 开团,跟单的人和 agent 在 3 分钟内上车。",
+          "en": "When a coin like this appears, a lead opens a group on tradefons and followers get in within 3 minutes."
+        }
       ],
-      "ask": [{"zh": "agent 怎么接进来?", "en": "How do agents plug in?"}],
+      "ask": [
+        {
+          "zh": "agent 怎么接进来?",
+          "en": "How do agents plug in?"
+        }
+      ],
       "blocks": [
-        {"type": "title", "eyebrow": {"zh": "② 交易", "en": "② Trading"}, "h": {"zh": "注意力<em>在这里成交</em>。", "en": "Attention <em>trades here</em>."}},
-        {"type": "panel", "heading": {"zh": "案例 · GANG 日 K", "en": "Case · GANG daily"}, "note": {"zh": "美元/枚", "en": "USD"}, "blocks": [
-          {"type": "kline", "rows": [["10-22", 0.00009, 0.00365, 0.00009, 0.00094, 4029660], ["10-23", 0.00094, 0.00322, 0.0006, 0.00117, 3146812], ["10-24", 0.00117, 0.00247, 0.00108, 0.00215, 1158872], ["10-25", 0.00215, 0.00453, 0.0017, 0.00374, 1782889], ["10-26", 0.00374, 0.00476, 0.00279, 0.00397, 1700516], ["10-27", 0.00397, 0.0083, 0.00366, 0.00713, 2961828]]}
-        ]},
-        {"type": "scenes", "color": "#e08a00", "items": [
-          {"name": {"zh": "带单人开团", "en": "A lead opens a group"}, "who": {"zh": "已验证 .ai 的交易员", "en": "traders with a verified .ai"}, "what": {"zh": "8 折、报名 3 分钟、超额抽签", "en": "20% off, 3-minute window, lottery"}, "place": {"zh": "带单人的开团台", "en": "the lead's launch desk"}, "status": "live"},
-          {"name": {"zh": "一键跟上", "en": "Follow in one tap"}, "who": {"zh": "跟单人", "en": "followers"}, "what": {"zh": "引擎按规则跟买、止盈止损、跟着出货", "en": "the engine copies buys, stops and exits by rule"}, "place": {"zh": "执行引擎", "en": "execution engine"}, "status": "live"}
-        ]},
-        {"type": "source", "text": "GeckoTerminal (PancakeSwap)", "date": "2026-10-27"}
+        {
+          "type": "title",
+          "eyebrow": {
+            "zh": "② 交易",
+            "en": "② Trading"
+          },
+          "h": {
+            "zh": "注意力<em>在这里成交</em>。",
+            "en": "Attention <em>trades here</em>."
+          }
+        },
+        {
+          "type": "panel",
+          "heading": {
+            "zh": "案例 · GANG 日 K",
+            "en": "Case · GANG daily"
+          },
+          "note": {
+            "zh": "美元/枚",
+            "en": "USD"
+          },
+          "blocks": [
+            {
+              "type": "kline",
+              "rows": [
+                [
+                  "10-22",
+                  9e-05,
+                  0.00365,
+                  9e-05,
+                  0.00094,
+                  4029660
+                ],
+                [
+                  "10-23",
+                  0.00094,
+                  0.00322,
+                  0.0006,
+                  0.00117,
+                  3146812
+                ],
+                [
+                  "10-24",
+                  0.00117,
+                  0.00247,
+                  0.00108,
+                  0.00215,
+                  1158872
+                ],
+                [
+                  "10-25",
+                  0.00215,
+                  0.00453,
+                  0.0017,
+                  0.00374,
+                  1782889
+                ],
+                [
+                  "10-26",
+                  0.00374,
+                  0.00476,
+                  0.00279,
+                  0.00397,
+                  1700516
+                ],
+                [
+                  "10-27",
+                  0.00397,
+                  0.0083,
+                  0.00366,
+                  0.00713,
+                  2961828
+                ]
+              ]
+            }
+          ]
+        },
+        {
+          "type": "scenes",
+          "color": "#e08a00",
+          "items": [
+            {
+              "name": {
+                "zh": "带单人开团",
+                "en": "A lead opens a group"
+              },
+              "who": {
+                "zh": "已验证 .ai 的交易员",
+                "en": "traders with a verified .ai"
+              },
+              "what": {
+                "zh": "8 折、报名 3 分钟、超额抽签",
+                "en": "20% off, 3-minute window, lottery"
+              },
+              "place": {
+                "zh": "带单人的开团台",
+                "en": "the lead's launch desk"
+              },
+              "status": "live"
+            },
+            {
+              "name": {
+                "zh": "一键跟上",
+                "en": "Follow in one tap"
+              },
+              "who": {
+                "zh": "跟单人",
+                "en": "followers"
+              },
+              "what": {
+                "zh": "引擎按规则跟买、止盈止损、跟着出货",
+                "en": "the engine copies buys, stops and exits by rule"
+              },
+              "place": {
+                "zh": "执行引擎",
+                "en": "execution engine"
+              },
+              "status": "live"
+            }
+          ]
+        },
+        {
+          "type": "source",
+          "text": "GeckoTerminal (PancakeSwap)",
+          "date": "2026-10-27"
+        }
       ]
     },
     {
       "id": "agent",
-      "toc": {"zh": "③ agent", "en": "③ Agents"},
+      "toc": {
+        "zh": "③ agent",
+        "en": "③ Agents"
+      },
       "say": [
-        {"zh": "第三块是 <b>agent</b>:人只做三件事,其余交给 agent 和引擎。", "en": "Board three is <b>agents</b>: people do three things; agents and the engine do the rest."}
+        {
+          "zh": "第三块是 <b>agent</b>:人只做三件事,其余交给 agent 和引擎。",
+          "en": "Board three is <b>agents</b>: people do three things; agents and the engine do the rest."
+        }
       ],
       "blocks": [
-        {"type": "title", "eyebrow": {"zh": "③ agent", "en": "③ Agents"}, "h": {"zh": "人做 3 件事,<br>其余 <em>agent 和引擎</em>完成。", "en": "People do 3 things.<br><em>Agent and engine</em> do the rest."}},
-        {"type": "flow", "columns": 3, "steps": [
-          {"title": {"zh": "一句话", "en": "One sentence"}, "desc": {"zh": "把开通口令发给自己的 agent", "en": "send the setup line to your agent"}},
-          {"title": {"zh": "开一次开发者模式", "en": "Developer mode, once"}, "desc": {"zh": "在钱包里打开一次", "en": "switch it on in the wallet"}},
-          {"title": {"zh": "转一笔", "en": "One transfer"}, "desc": {"zh": "转账即开通,不用注册", "en": "a transfer activates it, no sign-up"}, "hl": true}
-        ]},
-        {"type": "compare",
-          "before": {"title": {"zh": "以前", "en": "Before"}, "items": [{"zh": "注册、绑定、逐笔确认", "en": "sign up, link, confirm every trade"}, {"zh": "错过 3 分钟窗口", "en": "miss the 3-minute window"}]},
-          "after": {"title": {"zh": "现在", "en": "Now"}, "items": [{"zh": "agent 按主人的规则表态", "en": "the agent acts on its owner's rules"}, {"zh": "引擎机械执行,结果标来源", "en": "the engine executes; every result is labelled"}]}
+        {
+          "type": "title",
+          "eyebrow": {
+            "zh": "③ agent",
+            "en": "③ Agents"
+          },
+          "h": {
+            "zh": "人做 3 件事,<br>其余 <em>agent 和引擎</em>完成。",
+            "en": "People do 3 things.<br><em>Agent and engine</em> do the rest."
+          }
+        },
+        {
+          "type": "flow",
+          "columns": 3,
+          "steps": [
+            {
+              "title": {
+                "zh": "一句话",
+                "en": "One sentence"
+              },
+              "desc": {
+                "zh": "把开通口令发给自己的 agent",
+                "en": "send the setup line to your agent"
+              }
+            },
+            {
+              "title": {
+                "zh": "开一次开发者模式",
+                "en": "Developer mode, once"
+              },
+              "desc": {
+                "zh": "在钱包里打开一次",
+                "en": "switch it on in the wallet"
+              }
+            },
+            {
+              "title": {
+                "zh": "转一笔",
+                "en": "One transfer"
+              },
+              "desc": {
+                "zh": "转账即开通,不用注册",
+                "en": "a transfer activates it, no sign-up"
+              },
+              "hl": true
+            }
+          ]
+        },
+        {
+          "type": "compare",
+          "before": {
+            "title": {
+              "zh": "以前",
+              "en": "Before"
+            },
+            "items": [
+              {
+                "zh": "注册、绑定、逐笔确认",
+                "en": "sign up, link, confirm every trade"
+              },
+              {
+                "zh": "错过 3 分钟窗口",
+                "en": "miss the 3-minute window"
+              }
+            ]
+          },
+          "after": {
+            "title": {
+              "zh": "现在",
+              "en": "Now"
+            },
+            "items": [
+              {
+                "zh": "agent 按主人的规则表态",
+                "en": "the agent acts on its owner's rules"
+              },
+              {
+                "zh": "引擎机械执行,结果标来源",
+                "en": "the engine executes; every result is labelled"
+              }
+            ]
+          }
         }
       ]
     },
     {
       "id": "nft",
-      "toc": {"zh": "④ NFT", "en": "④ NFT"},
+      "toc": {
+        "zh": "④ NFT",
+        "en": "④ NFT"
+      },
       "say": [
-        {"zh": "第四块是 <b>NFT</b>:把 .ai 身份变成可以交易的资产。", "en": "Board four is <b>NFT</b>: turning .ai identity into tradable assets."}
+        {
+          "zh": "第四块是 <b>NFT</b>:把 .ai 身份变成可以交易的资产。",
+          "en": "Board four is <b>NFT</b>: turning .ai identity into tradable assets."
+        }
       ],
       "blocks": [
-        {"type": "title", "eyebrow": {"zh": "④ NFT", "en": "④ NFT"}, "h": {"zh": "给 AgentID 资产<br>一个<em>发现和交易</em>的地方。", "en": "Where AgentID assets get<br><em>found and traded</em>."}},
-        {"type": "scenes", "color": "#d6409f", "items": [
-          {"name": "AgentID swap", "who": {"zh": "人和 agent", "en": "people and agents"}, "what": {"zh": "同一本订单簿挂单、买、出价;平台费 2%", "en": "one order book for listing, buying and bidding; 2% fee"}, "place": {"zh": "AgentID 生态的 NFT 交易所", "en": "the NFT exchange of the AgentID ecosystem"}, "status": "main"},
-          {"name": "launchpad", "who": {"zh": "集合作者", "en": "creators"}, "what": {"zh": "一键发 NFT 集合,可限 AgentID mint", "en": "launch a collection in one step, AgentID-only mint optional"}, "place": {"zh": "新资产的起点", "en": "where new assets start"}, "status": "plan"},
-          {"name": {"zh": "skills 市场", "en": "Skills market"}, "who": {"zh": "人 ↔ agent、agent ↔ agent", "en": "people ↔ agents, agent ↔ agent"}, "what": {"zh": "agent skill 挂牌、购买、安装", "en": "list, buy and install agent skills"}, "place": {"zh": "agent 能力的流通层", "en": "where agent skills change hands"}, "status": "plan"}
-        ]}
+        {
+          "type": "title",
+          "eyebrow": {
+            "zh": "④ NFT",
+            "en": "④ NFT"
+          },
+          "h": {
+            "zh": "给 AgentID 资产<br>一个<em>发现和交易</em>的地方。",
+            "en": "Where AgentID assets get<br><em>found and traded</em>."
+          }
+        },
+        {
+          "type": "scenes",
+          "color": "#d6409f",
+          "items": [
+            {
+              "name": "AgentID swap",
+              "who": {
+                "zh": "人和 agent",
+                "en": "people and agents"
+              },
+              "what": {
+                "zh": "同一本订单簿挂单、买、出价;平台费 2%",
+                "en": "one order book for listing, buying and bidding; 2% fee"
+              },
+              "place": {
+                "zh": "AgentID 生态的 NFT 交易所",
+                "en": "the NFT exchange of the AgentID ecosystem"
+              },
+              "status": "main"
+            },
+            {
+              "name": "launchpad",
+              "who": {
+                "zh": "集合作者",
+                "en": "creators"
+              },
+              "what": {
+                "zh": "一键发 NFT 集合,可限 AgentID mint",
+                "en": "launch a collection in one step, AgentID-only mint optional"
+              },
+              "place": {
+                "zh": "新资产的起点",
+                "en": "where new assets start"
+              },
+              "status": "plan"
+            },
+            {
+              "name": {
+                "zh": "skills 市场",
+                "en": "Skills market"
+              },
+              "who": {
+                "zh": "人 ↔ agent、agent ↔ agent",
+                "en": "people ↔ agents, agent ↔ agent"
+              },
+              "what": {
+                "zh": "agent skill 挂牌、购买、安装",
+                "en": "list, buy and install agent skills"
+              },
+              "place": {
+                "zh": "agent 能力的流通层",
+                "en": "where agent skills change hands"
+              },
+              "status": "plan"
+            }
+          ]
+        }
       ]
     },
     {
       "id": "flywheel",
-      "toc": {"zh": "飞轮", "en": "Flywheel"},
+      "toc": {
+        "zh": "飞轮",
+        "en": "Flywheel"
+      },
       "say": [
-        {"zh": "四块不是并列的,是<b>一个飞轮</b>:社交带来注意力,交易把注意力变成交易额,agent 降低门槛,NFT 让身份可交易,再回到动态里被看见。", "en": "The four boards are <b>one flywheel</b>: social brings attention, trading turns it into volume, agents lower the bar, NFT makes identity tradable, and it all shows up in the feed again."}
+        {
+          "zh": "四块不是并列的,是<b>一个飞轮</b>:社交带来注意力,交易把注意力变成交易额,agent 降低门槛,NFT 让身份可交易,再回到动态里被看见。",
+          "en": "The four boards are <b>one flywheel</b>: social brings attention, trading turns it into volume, agents lower the bar, NFT makes identity tradable, and it all shows up in the feed again."
+        }
       ],
       "blocks": [
-        {"type": "title", "eyebrow": {"zh": "飞轮", "en": "Flywheel"}, "h": {"zh": "四个板块,<em>顺时针互相导流</em>。", "en": "Four boards, <em>feeding each other clockwise</em>."}},
-        {"type": "rings", "flow": true,
-          "rings": [{"label": "BNB Chain", "color": "#e0a800"}, {"label": "Agent ID", "color": "#0a84d6"}],
-          "center": {"label": "tradefons", "sub": {"zh": "引擎", "en": "engine"}},
+        {
+          "type": "title",
+          "eyebrow": {
+            "zh": "飞轮",
+            "en": "Flywheel"
+          },
+          "h": {
+            "zh": "四个板块,<em>顺时针互相导流</em>。",
+            "en": "Four boards, <em>feeding each other clockwise</em>."
+          }
+        },
+        {
+          "type": "rings",
+          "flow": true,
+          "rings": [
+            {
+              "label": "BNB Chain",
+              "color": "#e0a800"
+            },
+            {
+              "label": "Agent ID",
+              "color": "#0a84d6"
+            }
+          ],
+          "center": {
+            "label": "tradefons",
+            "sub": {
+              "zh": "引擎",
+              "en": "engine"
+            }
+          },
           "chips": [
-            {"label": {"zh": "① 社交", "en": "① Social"}, "sub": {"zh": "流量进来", "en": "traffic in"}, "color": "#7a5cf0"},
-            {"label": {"zh": "② 交易", "en": "② Trading"}, "sub": {"zh": "流量成交", "en": "traffic trades"}, "color": "#e08a00"},
-            {"label": {"zh": "③ agent", "en": "③ Agents"}, "sub": {"zh": "门槛降低", "en": "lower bar"}, "color": "#0f9e93"},
-            {"label": {"zh": "④ NFT", "en": "④ NFT"}, "sub": {"zh": "身份变资产", "en": "identity as assets"}, "color": "#d6409f"}
+            {
+              "label": {
+                "zh": "① 社交",
+                "en": "① Social"
+              },
+              "sub": {
+                "zh": "流量进来",
+                "en": "traffic in"
+              },
+              "color": "#7a5cf0"
+            },
+            {
+              "label": {
+                "zh": "② 交易",
+                "en": "② Trading"
+              },
+              "sub": {
+                "zh": "流量成交",
+                "en": "traffic trades"
+              },
+              "color": "#e08a00"
+            },
+            {
+              "label": {
+                "zh": "③ agent",
+                "en": "③ Agents"
+              },
+              "sub": {
+                "zh": "门槛降低",
+                "en": "lower bar"
+              },
+              "color": "#0f9e93"
+            },
+            {
+              "label": {
+                "zh": "④ NFT",
+                "en": "④ NFT"
+              },
+              "sub": {
+                "zh": "身份变资产",
+                "en": "identity as assets"
+              },
+              "color": "#d6409f"
+            }
           ]
         }
       ]
     },
     {
       "id": "model",
-      "toc": {"zh": "商业模式", "en": "Business model"},
+      "toc": {
+        "zh": "商业模式",
+        "en": "Business model"
+      },
       "say": [
-        {"zh": "收入只来自<b>已经发生的交易</b>和<b>已经兑现的结果</b>。", "en": "Revenue comes only from <b>trades that happened</b> and <b>results that paid out</b>."}
+        {
+          "zh": "收入只来自<b>已经发生的交易</b>和<b>已经兑现的结果</b>。",
+          "en": "Revenue comes only from <b>trades that happened</b> and <b>results that paid out</b>."
+        }
       ],
       "blocks": [
-        {"type": "title", "eyebrow": {"zh": "商业模式", "en": "Business model"}, "h": {"zh": "按成交收费,<em>按结果收费</em>。", "en": "Paid per trade, <em>paid per result</em>."}},
-        {"type": "table", "columns": [{"zh": "收入", "en": "Revenue"}, {"zh": "费率", "en": "Rate"}, {"zh": "状态", "en": "Status"}], "rows": [
-          [{"zh": "跟单交易手续费", "en": "Copy-trading fee"}, {"v": "1%", "hl": true}, {"zh": "已上线", "en": "Live"}],
-          [{"zh": "跟单利润分成(给带单人)", "en": "Profit share (to leads)"}, {"zh": "已实现利润 30%", "en": "30% of realized profit"}, {"zh": "已上线", "en": "Live"}],
-          [{"zh": "NFT 平台手续费", "en": "NFT platform fee"}, {"v": "2%", "hl": true}, {"zh": "主网", "en": "Mainnet"}],
-          [{"zh": "推荐分成", "en": "Referral share"}, {"zh": "平台费 25%", "en": "25% of fees"}, {"zh": "已上线", "en": "Live"}]
-        ]},
-        {"type": "source", "text": {"zh": "产品费率(公开)", "en": "public product fees"}, "date": "2026-10-27"}
+        {
+          "type": "title",
+          "eyebrow": {
+            "zh": "商业模式",
+            "en": "Business model"
+          },
+          "h": {
+            "zh": "按成交收费,<em>按结果收费</em>。",
+            "en": "Paid per trade, <em>paid per result</em>."
+          }
+        },
+        {
+          "type": "table",
+          "columns": [
+            {
+              "zh": "收入",
+              "en": "Revenue"
+            },
+            {
+              "zh": "费率",
+              "en": "Rate"
+            },
+            {
+              "zh": "状态",
+              "en": "Status"
+            }
+          ],
+          "rows": [
+            [
+              {
+                "zh": "跟单交易手续费",
+                "en": "Copy-trading fee"
+              },
+              {
+                "v": "1%",
+                "hl": true
+              },
+              {
+                "zh": "已上线",
+                "en": "Live"
+              }
+            ],
+            [
+              {
+                "zh": "跟单利润分成(给带单人)",
+                "en": "Profit share (to leads)"
+              },
+              {
+                "zh": "已实现利润 30%",
+                "en": "30% of realized profit"
+              },
+              {
+                "zh": "已上线",
+                "en": "Live"
+              }
+            ],
+            [
+              {
+                "zh": "NFT 平台手续费",
+                "en": "NFT platform fee"
+              },
+              {
+                "v": "2%",
+                "hl": true
+              },
+              {
+                "zh": "主网",
+                "en": "Mainnet"
+              }
+            ],
+            [
+              {
+                "zh": "推荐分成",
+                "en": "Referral share"
+              },
+              {
+                "zh": "平台费 25%",
+                "en": "25% of fees"
+              },
+              {
+                "zh": "已上线",
+                "en": "Live"
+              }
+            ]
+          ]
+        },
+        {
+          "type": "source",
+          "text": {
+            "zh": "产品费率(公开)",
+            "en": "public product fees"
+          },
+          "date": "2026-10-27"
+        }
       ]
     },
     {
       "id": "road",
-      "toc": {"zh": "三个阶段", "en": "Three phases"},
+      "toc": {
+        "zh": "三个阶段",
+        "en": "Three phases"
+      },
       "tool": "plan(\"第一阶段 → 第二阶段 → 第三阶段\")",
       "say": [
-        {"zh": "<b>三个阶段,三把尺子</b>:先拿下 AgentID 的授权,再让 agent 的资金用起来,最后看人 + agent 的总交易额在 BSC 的排位。", "en": "<b>Three phases, three yardsticks</b>: win AgentID authorizations, put agent capital to work, then rank on BSC by human + agent volume."}
+        {
+          "zh": "<b>三个阶段,三把尺子</b>:先拿下 AgentID 的授权,再让 agent 的资金用起来,最后看人 + agent 的总交易额在 BSC 的排位。",
+          "en": "<b>Three phases, three yardsticks</b>: win AgentID authorizations, put agent capital to work, then rank on BSC by human + agent volume."
+        }
       ],
       "ask": [
-        {"zh": "情景表是预测吗?", "en": "Are the scenarios forecasts?", "reply": {"zh": "不是。情景只用来说明量级。", "en": "No. Scenarios only show orders of magnitude."}},
-        {"zh": "重来一遍", "en": "Start over", "restart": true}
+        {
+          "zh": "情景表是预测吗?",
+          "en": "Are the scenarios forecasts?",
+          "reply": {
+            "zh": "不是。情景只用来说明量级。",
+            "en": "No. Scenarios only show orders of magnitude."
+          }
+        },
+        {
+          "zh": "重来一遍",
+          "en": "Start over",
+          "restart": true
+        }
       ],
       "blocks": [
-        {"type": "title", "eyebrow": {"zh": "阶段规划", "en": "Roadmap"}, "h": {"zh": "三个阶段,<br>现在在<em>第一阶段</em>。", "en": "Three phases.<br>We are in <em>phase one</em>."}},
-        {"type": "roadmap", "phases": [
-          {"title": {"zh": "授权占有率", "en": "Authorization share"}, "when": {"zh": "现在", "en": "now"}, "status": "live", "items": [{"zh": "托管跟单、NFT 市场、launchpad 的授权都算", "en": "custody, NFT market and launchpad authorizations all count"}]},
-          {"title": {"zh": "资金使用率", "en": "Capital usage"}, "when": {"zh": "下一步", "en": "next"}, "status": "plan", "items": [{"zh": "agent 能动用的资金有多少在这里用起来", "en": "how much spendable agent capital is used here"}]},
-          {"title": {"zh": "总交易额", "en": "Total volume"}, "when": {"zh": "之后", "en": "later"}, "status": "plan", "items": [{"zh": "人 + agent 的交易额对标 BSC 前列", "en": "human + agent volume against BSC's top venues"}]}
-        ]},
-        {"type": "panel", "heading": {"zh": "全网 AgentID 数 · 情景", "en": "AgentIDs · scenarios"}, "note": {"zh": "币安注册用户转化率 · 情景,不是预测", "en": "conversion of Binance users · scenarios, not forecasts"}, "blocks": [
-          {"type": "bars", "items": [
-            {"label": {"zh": "现在 · 0.037%", "en": "now · 0.037%"}, "value": 118282, "display": "118,282", "hl": true},
-            {"label": {"zh": "假设 0.1%", "en": "if 0.1%"}, "value": 323000, "display": {"zh": "32.3 万", "en": "323k"}},
-            {"label": {"zh": "假设 0.5%", "en": "if 0.5%"}, "value": 1615000, "display": {"zh": "161.5 万", "en": "1.6M"}},
-            {"label": {"zh": "假设 1%", "en": "if 1%"}, "value": 3230000, "display": {"zh": "323 万", "en": "3.2M"}}
-          ]}
-        ]},
-        {"type": "source", "text": {"zh": "币安 2026-07 公布注册用户 3.23 亿 · ptah.trade/agents", "en": "Binance: 323M registered users (2026-07) · ptah.trade/agents"}, "date": "2026-10-27"}
+        {
+          "type": "title",
+          "eyebrow": {
+            "zh": "阶段规划",
+            "en": "Roadmap"
+          },
+          "h": {
+            "zh": "三个阶段,<br>现在在<em>第一阶段</em>。",
+            "en": "Three phases.<br>We are in <em>phase one</em>."
+          }
+        },
+        {
+          "type": "roadmap",
+          "phases": [
+            {
+              "title": {
+                "zh": "授权占有率",
+                "en": "Authorization share"
+              },
+              "when": {
+                "zh": "现在",
+                "en": "now"
+              },
+              "status": "live",
+              "items": [
+                {
+                  "zh": "托管跟单、NFT 市场、launchpad 的授权都算",
+                  "en": "custody, NFT market and launchpad authorizations all count"
+                }
+              ]
+            },
+            {
+              "title": {
+                "zh": "资金使用率",
+                "en": "Capital usage"
+              },
+              "when": {
+                "zh": "下一步",
+                "en": "next"
+              },
+              "status": "plan",
+              "items": [
+                {
+                  "zh": "agent 能动用的资金有多少在这里用起来",
+                  "en": "how much spendable agent capital is used here"
+                }
+              ]
+            },
+            {
+              "title": {
+                "zh": "总交易额",
+                "en": "Total volume"
+              },
+              "when": {
+                "zh": "之后",
+                "en": "later"
+              },
+              "status": "plan",
+              "items": [
+                {
+                  "zh": "人 + agent 的交易额对标 BSC 前列",
+                  "en": "human + agent volume against BSC's top venues"
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "type": "panel",
+          "heading": {
+            "zh": "全网 AgentID 数 · 情景",
+            "en": "AgentIDs · scenarios"
+          },
+          "note": {
+            "zh": "币安注册用户转化率 · 情景,不是预测",
+            "en": "conversion of Binance users · scenarios, not forecasts"
+          },
+          "blocks": [
+            {
+              "type": "bars",
+              "items": [
+                {
+                  "label": {
+                    "zh": "现在 · 0.037%",
+                    "en": "now · 0.037%"
+                  },
+                  "value": 118282,
+                  "display": "118,282",
+                  "hl": true
+                },
+                {
+                  "label": {
+                    "zh": "假设 0.1%",
+                    "en": "if 0.1%"
+                  },
+                  "value": 323000,
+                  "display": {
+                    "zh": "32.3 万",
+                    "en": "323k"
+                  }
+                },
+                {
+                  "label": {
+                    "zh": "假设 0.5%",
+                    "en": "if 0.5%"
+                  },
+                  "value": 1615000,
+                  "display": {
+                    "zh": "161.5 万",
+                    "en": "1.6M"
+                  }
+                },
+                {
+                  "label": {
+                    "zh": "假设 1%",
+                    "en": "if 1%"
+                  },
+                  "value": 3230000,
+                  "display": {
+                    "zh": "323 万",
+                    "en": "3.2M"
+                  }
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "type": "source",
+          "text": {
+            "zh": "币安 2026-07 公布注册用户 3.23 亿 · ptah.trade/agents",
+            "en": "Binance: 323M registered users (2026-07) · ptah.trade/agents"
+          },
+          "date": "2026-10-27"
+        }
       ]
     }
   ]

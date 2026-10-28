@@ -1,1 +1,1 @@
-Follow `skills/pitch-builder/SKILL.md` for any request to make or change the pitch. Edit only `deck/deck.json` and `deck/assets/`; validate with `python3 tools/validate.py` and build with `python3 tools/build.py`.
+MUST follow `skills/pitch-builder/SKILL.md` (also installed as the `pitch-builder` skill) for any request to make or change the pitch. Edit only `deck/deck.json` and `deck/assets/`; confirm the chapter outline with the user before writing; never invent numbers; done only when `python3 tools/validate.py` has 0 errors and `python3 tools/build.py` succeeds.
