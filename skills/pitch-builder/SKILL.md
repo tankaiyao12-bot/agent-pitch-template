@@ -9,13 +9,13 @@ metadata:
   category: 演示文稿
   category_en: Presentations
   output: "dist/<meta.output>.html — one self-contained file"
-  edit_only: ["deck/deck.json", "deck/assets/"]
-  never_edit: ["engine/", "tools/", "skills/", "examples/"]
+  edit_only: ["deck/deck.json", "deck/assets/", "deck/demo/"]
+  never_edit: ["engine/", "tools/", "skills/", "examples/"]   # copy examples/demo-starter into deck/demo/ instead of editing it
 ---
 
 # pitch-builder
 
-> **Scope**: this skill only writes `deck/deck.json` and files under `deck/assets/`, and runs the tools in `tools/`. It never edits the engine, never publishes anything, and never uploads the user's material anywhere.
+> **Scope**: this skill only writes `deck/deck.json` and files under `deck/assets/` and `deck/demo/`, and runs the tools in `tools/`. It never edits the engine, never publishes anything, and never uploads the user's material anywhere.
 
 > **Check you are an agent, not a chatbot**: this skill needs an agent that can read and write files in this folder and run `python3` (Codex / Kiro / Claude Code / Cursor / Gemini CLI). IF you cannot run commands THEN tell the user: 「这个模板需要能在本地运行命令的 agent(Codex、Kiro、Claude Code 等),网页聊天机器人做不了。」 and stop.
 
@@ -26,7 +26,7 @@ One HTML file. Double-click opens it in a browser: an agent "speaks" each chapte
 ## Hard rules
 
 - **Language**: reply to the user in the user's language. IF the user writes Chinese THEN use the quoted Chinese phrases in this skill verbatim.
-- MUST edit only `deck/deck.json` and `deck/assets/`. NEVER edit `engine/`, `tools/`, `skills/` or `examples/`, BECAUSE the user re-downloads the template to get fixes and local engine edits would be lost or break the build. IF a layout is missing THEN combine existing blocks; as a last resort use the `html` block inside the deck.
+- MUST edit only `deck/deck.json`, `deck/assets/` and `deck/demo/`. NEVER edit `engine/`, `tools/`, `skills/` or `examples/`, BECAUSE the user re-downloads the template to get fixes and local engine edits would be lost or break the build. IF a layout is missing THEN combine existing blocks; as a last resort use the `html` block inside the deck.
 - MUST NOT invent facts. Every number, name, date, customer and claim comes from the PPT, its speaker notes, or the user's own words. IF something the story needs is missing THEN put it in the outline as `[缺]` and ask.
 - MUST NOT write `deck/deck.json` before the user confirms the chapter outline (step 2), BECAUSE rewriting a finished deck costs the user far more than one confirmation.
 - Every chapter that shows numbers MUST have a `source` block (where it comes from + date). IF the PPT gives no source THEN ask the user; NEVER make one up.
@@ -43,7 +43,7 @@ languages:       {must_ask: [], safe_default: {langs: '["zh","en"]', english: "t
 chapter_outline: {must_ask: ["confirmation of the whole outline"], safe_default: {chapters: "6–12; one chapter = one point; merge slides that make the same point; drop agenda / thank-you slides"}}
 numbers:         {must_ask: ["source of any number the PPT does not source", "which figures are projections"], never_infer: ["NEVER round, convert currencies or fill a chart gap by estimation unless the user says so"]}
 status:          {must_ask: ["IF it is unclear whether a feature / milestone is live or planned"], never_infer: ["NEVER mark a planned item as live"]}
-demo:            {must_ask: ["which project websites to capture (list the links found in the PPT)"], safe_default: {"product screenshots in the PPT": "offer them as demo scenes", "page": "desktop, top 6000 px"}, never_infer: ["NEVER capture or link a site that is not in the PPT or named by the user"]}
+demo:            {must_ask: ["which project websites to capture (list the links found in the PPT)", "IF a simulated demo is wanted: which 3–5 pages to mock"], safe_default: {"product screenshots in the PPT": "offer them as demo scenes", "page": "desktop, top 6000 px"}, never_infer: ["NEVER capture or link a site that is not in the PPT or named by the user"]}
 output_name:     {safe_default: {output: "pitch"}}
 ```
 
@@ -94,6 +94,24 @@ A missing `must_ask` item MUST NOT be filled by a guess or a default, BECAUSE a 
 6. **Hand over**: tell the user the file path and say: 「做好了:双击 `dist/<name>.html` 打开,点右下角 ▶ 自动播放。哪里要改直接告诉我。」
    IF the user asks for changes THEN edit the deck → validate → build again. Change only what was asked.
 
+## Simulated clickable demo (optional)
+
+Use when the user wants the boss to *click around* a project's website, not just look at screenshots. You build a mock of the site with fake data; it runs offline inside the demo view.
+
+Hard rules (checked by `tools/validate.py`; the build stops on any of them):
+- MUST keep `<div id="sim-banner">模拟演示 · 非官方页面 · 数据为虚构 …</div>` at the top of every page, BECAUSE a mock that looks real can be mistaken for the real product or real numbers.
+- MUST be fully offline: no external scripts, styles, fonts, images, `fetch`, WebSocket or outbound links. Draw logos and icons with CSS / inline SVG; NEVER hot-link the project's files.
+- NEVER add a field that asks for a password, private key or seed phrase. "Connect wallet" / "sign in" only pretend (show a fake address such as `0xDem0…F4ke`).
+- All numbers are invented and look invented (round, clearly sample). NEVER copy live figures from the site into the mock as if they were current.
+- NEVER publish or host the mock; it lives only inside the user's HTML file.
+
+Steps:
+1. In the outline read-back, list the pages to mock (3–5: usually home + the main product pages from the site's navigation) and wait for 「确认」.
+2. For each page: `python3 tools/capture.py <url> --id <id> --outline` → screenshot `deck/assets/web-<id>.*` + structure `source/site-<id>.md` (navigation, headings, buttons, texts). Look at the screenshot for colors and layout.
+3. Copy `examples/demo-starter/index.html` to `deck/demo/<project>.html`. Rebuild it to match the site: same navigation labels, page order, headings, sections, button texts and main colors; fake data for tables, charts and stats; `#/path` links between pages.
+4. Add the scene: `{"id": "<project>", "title": "<Name> · 模拟演示", "desc": {"zh": "照官网搭的可点击演示,数据为虚构", "en": "clickable mock of the site, fake data"}, "file": "demo/<project>.html", "simulated": true, "url": "<official url>", "addr": "<domain>"}`. The real site stays one click away via 「打开官网 ↗」.
+5. Validate and build as usual; IF `tools/smoke.js` is available THEN open the demo view and click every navigation item.
+
 ## Optional style: circle language (位置 → 身份 → 场景)
 
 Many Chinese readers judge a company by where it sits and what identity it has before they look at features. Offer this style only when the PPT is about a platform or ecosystem; IF the PPT is a classic problem → solution story THEN keep its order.
@@ -123,7 +141,8 @@ demo:     # optional: a "product" view with a browser frame
   scenes:
     - {id: home, title: text, desc: text, image: "assets/web-home.jpg", fit: scroll, url: "https://example.com", captured: "2026-10-28", addr: "example.com"}   # written by tools/capture.py
     - {id: app, title: text, image: "assets/s05-1.png"}            # a screenshot from the PPT
-    # also possible: file: "demo/home.html" (bundled) or url only (needs internet; many sites refuse to be embedded)
+    - {id: site, title: text, file: "demo/site.html", simulated: true, url: "https://example.com", addr: "example.com"}   # simulated clickable demo, see above
+    # also possible: url only (needs internet; many sites refuse to be embedded)
 ```
 
 `text` = a string, or `{"zh": "…", "en": "…"}`; may contain `<b>`, `<em>`, `<br>`. With two languages every text MUST have both.

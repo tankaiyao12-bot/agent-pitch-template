@@ -275,3 +275,4 @@ button{font:inherit;color:inherit}
 @media (max-width:720px){.cmp{grid-template-columns:1fr}}
 .demo-scroll{position:absolute;inset:0;overflow:auto;background:#fff}.demo-scroll img{display:block;width:100%;height:auto}.demo-scroll.m{background:#f2f2f7}.demo-scroll.m img{max-width:390px;margin:0 auto;box-shadow:0 0 0 1px var(--edge)}
 #openlive[hidden]{display:none}
+.simtag{position:absolute;right:10px;bottom:10px;z-index:2;background:#ffd23f;color:#1a1a1a;font:700 11px var(--body);padding:4px 10px;border-radius:999px;pointer-events:none;box-shadow:0 2px 8px rgba(0,0,0,.25)}

@@ -19,6 +19,7 @@
    - 拆解 PPT(文字、演讲者备注、表格、图表数据、图片、链接)
    - **先给你一份章节大纲确认**
    - 把 PPT 里的项目官网截成长图,放进「项目官网」页(离线可看,联网时可点「打开官网 ↗」)
+   - 需要的话,照着官网搭一个**可以点来点去的模拟演示**(假数据,页面挂「模拟演示 · 数据为虚构」横幅,完全离线)
    - 写 `deck/deck.json` → 校验 → 打包成 `dist/pitch.html`
 4. 双击 `dist/pitch.html` 查看。不满意就直接跟 agent 说要改哪里,它改完重新打包。
 
@@ -48,6 +49,7 @@ engine/               播放器和样式(不用改)
 tools/                拆 PPT、校验、打包、渲染检查
 skills/pitch-builder/ 给 agent 的操作手册(SKILL.md 英文主版 + SKILL.zh.md 中文对照)
 examples/tradefons/   示例 deck
+examples/demo-starter/ 模拟演示起步模板(agent 复制到 deck/demo/ 再改)
 ```
 
 ## License

@@ -22,6 +22,10 @@ sys.path.insert(0, str(ROOT / "tools"))
 import validate  # noqa: E402
 
 IMAGE_KEYS = {"logo", "src", "image"}
+# A bundled demo page runs as srcdoc, where "#/page" links would resolve against the outer file and be
+# blocked. This keeps in-page links inside the demo.
+HASH_NAV = ("<script>document.addEventListener('click',function(e){var a=e.target.closest&&e.target.closest('a[href^=\"#\"]');"
+            "if(a){e.preventDefault();location.hash=a.getAttribute('href').slice(1)}},true)</script>")
 
 
 def data_uri(path: Path) -> str:
@@ -39,7 +43,7 @@ def inline(node, base: Path, in_demo=False):
             if k in IMAGE_KEYS and isinstance(v, str) and not v.startswith(("http://", "https://", "data:")):
                 out[k] = data_uri(base / v)
             elif k == "file" and isinstance(v, str) and in_demo:
-                out["srcdoc"] = (base / v).read_text(encoding="utf-8")
+                out["srcdoc"] = HASH_NAV + (base / v).read_text(encoding="utf-8")
             else:
                 out[k] = inline(v, base, in_demo or k == "demo")
         return out

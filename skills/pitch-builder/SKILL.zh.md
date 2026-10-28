@@ -7,7 +7,7 @@ note: "中文对照版。agent 执行以英文版 SKILL.md 为准;两版规则�
 
 # pitch-builder(中文对照)
 
-> **范围**:只写 `deck/deck.json` 和 `deck/assets/` 下的文件,只运行 `tools/` 里的工具。不改引擎,不发布任何东西,不把用户的材料上传到任何地方。
+> **范围**:只写 `deck/deck.json` 以及 `deck/assets/`、`deck/demo/` 下的文件,只运行 `tools/` 里的工具。不改引擎,不发布任何东西,不把用户的材料上传到任何地方。
 
 > **先确认你是 agent,不是聊天机器人**:需要能读写本文件夹、能运行 `python3` 的 agent(Codex / Kiro / Claude Code / Cursor / Gemini CLI)。如果不能运行命令,告诉用户:「这个模板需要能在本地运行命令的 agent(Codex、Kiro、Claude Code 等),网页聊天机器人做不了。」然后停止。
 
@@ -18,7 +18,7 @@ note: "中文对照版。agent 执行以英文版 SKILL.md 为准;两版规则�
 ## 硬规则
 
 - **语言**:用用户的语言回复。用户写中文时,原样使用本 skill 里引号中的中文话术。
-- **只能**改 `deck/deck.json` 和 `deck/assets/`。**绝不**改 `engine/`、`tools/`、`skills/`、`examples/`,因为用户会重新下载模板来获得修复,本地改过的引擎会丢失或导致打包失败。缺版式时先组合现有组件,实在不行在 deck 里用 `html` 组件。
+- **只能**改 `deck/deck.json`、`deck/assets/` 和 `deck/demo/`。**绝不**改 `engine/`、`tools/`、`skills/`、`examples/`,因为用户会重新下载模板来获得修复,本地改过的引擎会丢失或导致打包失败。缺版式时先组合现有组件,实在不行在 deck 里用 `html` 组件。
 - **不许编造**。每个数字、名称、日期、客户和说法都必须来自 PPT、演讲者备注或用户亲口说的。故事需要但缺失的信息,在大纲里标 `[缺]` 并提问。
 - 用户确认章节大纲(第 2 步)之前,**不许**写 `deck/deck.json`,因为推倒重写一份完成的 deck,对用户的成本远高于确认一次。
 - 有数字的章节**必须**有 `source` 组件(来源 + 日期)。PPT 没写来源就问用户,**绝不**自己编。
@@ -35,7 +35,7 @@ languages:       {must_ask: [], safe_default: {langs: '["zh","en"]', english: "�
 chapter_outline: {must_ask: ["整份大纲的确认"], safe_default: {chapters: "6–12 章;一章讲一件事;讲同一件事的几页合并;目录页、致谢页不单独成章"}}
 numbers:         {must_ask: ["PPT 没写来源的数字的来源", "哪些是预测"], never_infer: ["除非用户要求,绝不四舍五入、换算币种或估算补图表缺口"]}
 status:          {must_ask: ["不确定某功能 / 里程碑是已上线还是计划中时"], never_infer: ["绝不把计划中的标成已上线"]}
-demo:            {must_ask: ["要截哪些项目官网(列出 PPT 里找到的链接)"], safe_default: {"PPT 里的产品截图": "提议放进演示页", "页面": "桌面版,顶部 6000 像素"}, never_infer: ["绝不截取或链接 PPT 里没有、用户也没提的网站"]}
+demo:            {must_ask: ["要截哪些项目官网(列出 PPT 里找到的链接)", "需要模拟演示时:模拟哪 3–5 个页面"], safe_default: {"PPT 里的产品截图": "提议放进演示页", "页面": "桌面版,顶部 6000 像素"}, never_infer: ["绝不截取或链接 PPT 里没有、用户也没提的网站"]}
 output_name:     {safe_default: {output: "pitch"}}
 ```
 
@@ -86,6 +86,24 @@ output_name:     {safe_default: {output: "pitch"}}
 6. **交付**:告诉用户文件路径,并说:「做好了:双击 `dist/<name>.html` 打开,点右下角 ▶ 自动播放。哪里要改直接告诉我。」
    用户要改时:改 deck → 校验 → 重新打包。只改用户要求的地方。
 
+## 可点击的模拟演示(可选)
+
+用户希望老板能在项目官网里「点来点去」,而不只是看截图时使用。你照着官网搭一个假数据的模拟版,离线运行在演示页里。
+
+硬规则(`tools/validate.py` 会检查,任何一条不满足都无法打包):
+- 每个页面顶部**必须**保留 `<div id="sim-banner">模拟演示 · 非官方页面 · 数据为虚构 …</div>`,因为做得像真的模拟页,会被误以为是真产品、真数据。
+- **必须**完全离线:不引用任何外部脚本、样式、字体、图片,不用 `fetch` / WebSocket,不放外链。logo 和图标用 CSS 或内联 SVG 画;**绝不**直接引用项目方的文件。
+- **绝不**加要求输入密码、私钥或助记词的框。「连接钱包」「登录」只做假动作(显示 `0xDem0…F4ke` 这类假地址)。
+- 所有数字都是编的,而且看得出是编的(整数、明显的示例值)。**绝不**把官网上的实时数字当成当前数据抄进模拟页。
+- **绝不**发布或托管模拟页;它只存在于用户的 HTML 文件里。
+
+步骤:
+1. 在大纲回读里列出要模拟的页面(3–5 个:通常是首页 + 官网导航里的主要产品页),等用户回「确认」。
+2. 每个页面运行 `python3 tools/capture.py <网址> --id <id> --outline` → 截图 `deck/assets/web-<id>.*` + 结构 `source/site-<id>.md`(导航、标题、按钮、文案)。颜色和布局看截图。
+3. 把 `examples/demo-starter/index.html` 复制到 `deck/demo/<项目>.html`,照官网改:导航文字、页面顺序、标题、区块、按钮文字、主色保持一致;表格、图表、数据卡用假数据;页面之间用 `#/路径` 链接。
+4. 加演示场景:`{"id": "<项目>", "title": "<名称> · 模拟演示", "desc": {"zh": "照官网搭的可点击演示,数据为虚构", "en": "clickable mock of the site, fake data"}, "file": "demo/<项目>.html", "simulated": true, "url": "<官网网址>", "addr": "<域名>"}`。真实官网仍可通过「打开官网 ↗」一键打开。
+5. 照常校验和打包;有 `tools/smoke.js` 时,打开演示页把每个导航都点一遍。
+
 ## 可选风格:圆形语言(位置 → 身份 → 场景)
 
 很多中文读者先看一家公司在哪个圈、是什么身份,再看功能。只在 PPT 讲的是平台或生态时提议这种风格;PPT 是经典的「问题 → 方案」结构时,保持原顺序。
@@ -115,7 +133,8 @@ demo:     # 可选:带浏览器框的「产品」页
   scenes:
     - {id: home, title: text, desc: text, image: "assets/web-home.jpg", fit: scroll, url: "https://example.com", captured: "2026-10-28", addr: "example.com"}   # 由 tools/capture.py 写入
     - {id: app, title: text, image: "assets/s05-1.png"}            # PPT 里的截图
-    # 也可以:file: "demo/home.html"(打包进去),或只写 url(需联网;很多网站禁止被嵌入)
+    - {id: site, title: text, file: "demo/site.html", simulated: true, url: "https://example.com", addr: "example.com"}   # 可点击的模拟演示,见上文
+    # 也可以只写 url(需联网;很多网站禁止被嵌入)
 ```
 
 `text` = 字符串,或 `{"zh": "…", "en": "…"}`;可以含 `<b>`、`<em>`、`<br>`。两种语言时,每段文字都**必须**两种都有。

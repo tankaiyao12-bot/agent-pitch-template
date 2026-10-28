@@ -7,6 +7,10 @@ Standard library only.
 """
 import json
 import re
+
+EXTERNAL = re.compile(r"""(?:\b(?:src|href|action|poster|data)\s*=\s*["']?\s*(?:https?:)?//)|url\(\s*["']?(?:https?:)?//|@import|\bfetch\s*\(|XMLHttpRequest|new\s+WebSocket|EventSource\s*\(|navigator\.sendBeacon|window\.open\s*\(""", re.I)
+SECRET_INPUT = re.compile(r"""type\s*=\s*["']?password|私钥|助记词|seed\s*phrase|private\s*key|mnemonic|recovery\s*phrase""", re.I)
+BANNER = re.compile(r"""id\s*=\s*["']sim-banner["'][^>]*>[^<]*(?:模拟演示|simulated demo)""", re.I)
 import sys
 from pathlib import Path
 
@@ -174,6 +178,20 @@ def check(deck_path: Path):
             if s.get("fit") and s["fit"] not in ("scroll", "contain"):
                 errors.append(f"demo.scenes[{k}].fit: scroll or contain")
             asset(s.get("file"), f"demo.scenes[{k}].file")
+            if s.get("file") and (base / s["file"]).exists():
+                page = (base / s["file"]).read_text(encoding="utf-8", errors="replace")
+                kb = len(page.encode()) // 1024
+                if kb > 2048:
+                    warnings.append(f"demo.scenes[{k}].file: {kb} KB; keep a demo page under 2 MB")
+                if s.get("simulated"):
+                    if not BANNER.search(page):
+                        errors.append(f"demo.scenes[{k}].file: simulated demo must keep the banner <div id=\"sim-banner\">模拟演示 · 非官方页面 · 数据为虚构</div>")
+                    m = EXTERNAL.search(page)
+                    if m:
+                        errors.append(f"demo.scenes[{k}].file: simulated demo must be fully offline; found \"{m.group(0).strip()}\" — inline it or remove it")
+                    m = SECRET_INPUT.search(page)
+                    if m:
+                        errors.append(f"demo.scenes[{k}].file: simulated demo must not ask for passwords, private keys or seed phrases; found \"{m.group(0)}\"")
     return errors, warnings
 
 

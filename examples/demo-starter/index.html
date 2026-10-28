@@ -1,0 +1,101 @@
+<!doctype html>
+<html lang="zh">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>模拟演示 · ExampleSwap</title>
+<!--
+  Starter for a SIMULATED clickable demo of a project website.
+  Copy to deck/demo/<id>.html, then rebuild the pages to look like the real site
+  (use source/site-<id>.md for navigation / headings / texts and the screenshot for colors and layout).
+  Rules (checked by tools/validate.py):
+    - keep the banner (#sim-banner) with 「模拟演示 · 非官方页面 · 数据为虚构」
+    - everything inline: no external scripts, styles, images, fonts, fetch, WebSocket or outbound links
+    - no fields that ask for wallet or account secrets; "connect wallet" and "sign in" only pretend
+-->
+<style>
+:root{--bg:#0b0d12;--panel:#141821;--line:#232838;--fg:#e8ebf2;--mute:#8a93a6;--acc:#5b8cff;--up:#16c784;--down:#ea3943;--radius:12px;--font:-apple-system,BlinkMacSystemFont,"PingFang SC","Segoe UI",Roboto,sans-serif}
+*{box-sizing:border-box}html,body{margin:0;background:var(--bg);color:var(--fg);font:14px/1.55 var(--font)}
+a{color:inherit;text-decoration:none}button{font:inherit;color:inherit;cursor:pointer}
+#sim-banner{position:sticky;top:0;z-index:50;background:#ffd23f;color:#1a1a1a;text-align:center;font:700 12px var(--font);padding:5px 12px}
+header{position:sticky;top:26px;z-index:40;display:flex;align-items:center;gap:24px;padding:14px 32px;background:rgba(11,13,18,.92);border-bottom:1px solid var(--line);backdrop-filter:blur(10px)}
+.logo{font:800 18px var(--font);display:flex;align-items:center;gap:8px}.logo i{width:26px;height:26px;border-radius:8px;background:var(--acc);display:inline-block}
+nav{display:flex;gap:4px;flex:1}nav a{padding:6px 12px;border-radius:8px;color:var(--mute)}nav a.on,nav a:hover{color:var(--fg);background:var(--panel)}
+.btn{border:0;border-radius:10px;padding:9px 16px;background:var(--acc);color:#fff;font-weight:700}.btn.g{background:var(--panel);border:1px solid var(--line);color:var(--fg)}
+main{max-width:1200px;margin:0 auto;padding:32px}
+.hero{padding:48px 0 32px}.hero h1{font-size:44px;line-height:1.15;margin:0 0 12px}.hero p{color:var(--mute);font-size:17px;max-width:620px;margin:0 0 24px}
+.stats{display:grid;grid-template-columns:repeat(4,1fr);gap:12px;margin:24px 0}.stat{background:var(--panel);border:1px solid var(--line);border-radius:var(--radius);padding:16px}.stat small{color:var(--mute)}.stat b{display:block;font-size:24px;margin-top:4px}
+.panel{background:var(--panel);border:1px solid var(--line);border-radius:var(--radius);padding:16px}
+table{width:100%;border-collapse:collapse}th,td{text-align:left;padding:12px 10px;border-bottom:1px solid var(--line)}th{color:var(--mute);font-weight:600;font-size:12px}tr.row{cursor:pointer}tr.row:hover td{background:rgba(255,255,255,.03)}
+.up{color:var(--up)}.down{color:var(--down)}.tabs{display:flex;gap:6px;margin-bottom:12px}.tabs button{border:1px solid var(--line);background:none;border-radius:999px;padding:6px 14px;color:var(--mute)}.tabs button.on{background:var(--fg);color:var(--bg)}
+.grid2{display:grid;grid-template-columns:1.4fr 1fr;gap:16px}
+.field{display:flex;justify-content:space-between;align-items:center;background:var(--bg);border:1px solid var(--line);border-radius:10px;padding:12px 14px;margin:8px 0}.field input{background:none;border:0;color:var(--fg);font:600 20px var(--font);width:60%;outline:0}
+.modal{position:fixed;inset:0;background:rgba(0,0,0,.6);display:none;align-items:center;justify-content:center;z-index:60}.modal.on{display:flex}.modal .box{width:380px;background:var(--panel);border:1px solid var(--line);border-radius:16px;padding:20px}
+.wallet{display:flex;align-items:center;gap:10px;padding:12px;border:1px solid var(--line);border-radius:10px;margin:8px 0;cursor:pointer}.wallet:hover{border-color:var(--acc)}
+.toast{position:fixed;bottom:24px;left:50%;transform:translateX(-50%);background:var(--fg);color:var(--bg);padding:10px 18px;border-radius:999px;font-weight:700;display:none;z-index:70}.toast.on{display:block}
+.spark{width:100%;height:160px}
+</style>
+</head>
+<body>
+<div id="sim-banner">模拟演示 · 非官方页面 · 数据为虚构 · Simulated demo, not the official site, all data is fake</div>
+<header>
+  <a class="logo" href="#/"><i></i>ExampleSwap</a>
+  <nav id="nav">
+    <a href="#/">首页</a><a href="#/market">市场</a><a href="#/swap">兑换</a><a href="#/docs">文档</a>
+  </nav>
+  <button class="btn" id="connect">连接钱包</button>
+</header>
+<main id="app"></main>
+<div class="modal" id="walletModal"><div class="box">
+  <h3 style="margin:0 0 6px">连接钱包</h3><p style="color:var(--mute);margin:0 0 10px">演示用:点任意一个即可,不会真的连接。</p>
+  <div class="wallet" data-w="Binance Wallet">🟡 Binance Wallet</div><div class="wallet" data-w="MetaMask">🦊 MetaMask</div><div class="wallet" data-w="WalletConnect">🔗 WalletConnect</div>
+  <button class="btn g" id="closeModal" style="width:100%;margin-top:8px">取消</button>
+</div></div>
+<div class="toast" id="toast"></div>
+<script>
+/* ---------- fake data: seeded, so every reload looks the same ---------- */
+let seed = 7; const rnd = () => (seed = (seed * 16807) % 2147483647) / 2147483647;
+const pick = a => a[Math.floor(rnd() * a.length)];
+const money = v => v >= 1e9 ? '$' + (v / 1e9).toFixed(2) + 'B' : v >= 1e6 ? '$' + (v / 1e6).toFixed(2) + 'M' : v >= 1e3 ? '$' + (v / 1e3).toFixed(1) + 'K' : '$' + v.toFixed(2);
+const TOKENS = ['ALPHA', 'BETA', 'GAMMA', 'DELTA', 'OMEGA', 'SIGMA', 'NOVA', 'LUMEN'].map(s => ({ s, price: rnd() * 5, chg: (rnd() - .45) * 30, vol: rnd() * 8e6, cap: rnd() * 9e7, series: Array.from({ length: 30 }, () => rnd()) }));
+const STATS = [['总交易额', money(1.28e9)], ['24h 交易额', money(3.4e7)], ['用户', '86,420'], ['上线项目', '312']];
+
+/* ---------- pages: '#/path' → render function ---------- */
+const spark = (s, up) => { const W = 600, H = 160, mx = Math.max(...s), mn = Math.min(...s), X = i => i * W / (s.length - 1), Y = v => H - 10 - (v - mn) / (mx - mn || 1) * (H - 20); return `<svg class="spark" viewBox="0 0 ${W} ${H}" preserveAspectRatio="none"><polyline points="${s.map((v, i) => X(i) + ',' + Y(v)).join(' ')}" fill="none" stroke="${up ? 'var(--up)' : 'var(--down)'}" stroke-width="2.5"/></svg>`; };
+const row = t => `<tr class="row" data-go="#/token/${t.s}"><td><b>${t.s}</b></td><td>$${t.price.toFixed(4)}</td><td class="${t.chg >= 0 ? 'up' : 'down'}">${t.chg >= 0 ? '+' : ''}${t.chg.toFixed(2)}%</td><td>${money(t.vol)}</td><td>${money(t.cap)}</td></tr>`;
+const PAGES = {
+  '/': () => `<section class="hero"><h1>一句话讲清这个项目</h1><p>把官网首页的主标题、副标题和主按钮照搬到这里(见 source/site-&lt;id&gt;.md)。</p><button class="btn" data-go="#/swap">开始兑换</button> <button class="btn g" data-go="#/market">看市场</button></section>
+    <div class="stats">${STATS.map(([k, v]) => `<div class="stat"><small>${k}</small><b>${v}</b></div>`).join('')}</div>
+    <div class="panel"><h3 style="margin-top:0">热门</h3><table><tr><th>代币</th><th>价格</th><th>24h</th><th>交易额</th><th>市值</th></tr>${TOKENS.slice(0, 5).map(row).join('')}</table></div>`,
+  '/market': () => `<h2>市场</h2><div class="tabs" id="mtabs"><button class="on" data-sort="vol">按交易额</button><button data-sort="chg">按涨幅</button><button data-sort="cap">按市值</button></div>
+    <div class="panel"><table id="mt"><tr><th>代币</th><th>价格</th><th>24h</th><th>交易额</th><th>市值</th></tr>${[...TOKENS].sort((a, b) => b.vol - a.vol).map(row).join('')}</table></div>`,
+  '/swap': () => `<div class="grid2"><div class="panel">${spark(TOKENS[0].series, TOKENS[0].chg >= 0)}</div><div class="panel"><h3 style="margin-top:0">兑换</h3>
+    <div class="field"><input value="1.00" aria-label="amount"><b>BNB</b></div><div class="field"><input value="${(1 / TOKENS[0].price * 600).toFixed(2)}" aria-label="receive"><b>${TOKENS[0].s}</b></div>
+    <button class="btn" style="width:100%;margin-top:8px" data-toast="演示:没有真的交易">兑换</button></div></div>`,
+  '/docs': () => `<h2>文档</h2><div class="panel"><p>把官网文档 / 白皮书的目录和要点放在这里。</p></div>`,
+  '/token': id => { const t = TOKENS.find(x => x.s === id) || TOKENS[0]; return `<p><a href="#/market" style="color:var(--mute)">← 市场</a></p><h2>${t.s} <span class="${t.chg >= 0 ? 'up' : 'down'}" style="font-size:16px">${t.chg >= 0 ? '+' : ''}${t.chg.toFixed(2)}%</span></h2>
+    <div class="grid2"><div class="panel">${spark(t.series, t.chg >= 0)}</div><div class="panel"><div class="stats" style="grid-template-columns:1fr 1fr;margin:0">${[['价格', '$' + t.price.toFixed(4)], ['交易额', money(t.vol)], ['市值', money(t.cap)], ['持有人', Math.round(rnd() * 9000 + 500).toLocaleString()]].map(([k, v]) => `<div class="stat"><small>${k}</small><b>${v}</b></div>`).join('')}</div>
+    <button class="btn" style="width:100%;margin-top:12px" data-go="#/swap">买入</button></div></div>`; },
+};
+function render() {
+  const [, path = '', arg] = location.hash.replace(/^#/, '').split('/');
+  const key = '/' + path, page = PAGES[key] || PAGES['/'];
+  document.getElementById('app').innerHTML = page(arg);
+  document.querySelectorAll('#nav a').forEach(a => a.classList.toggle('on', a.getAttribute('href') === '#' + key || (key === '/token' && a.getAttribute('href') === '#/market')));
+  scrollTo(0, 0);
+}
+addEventListener('hashchange', render);
+document.addEventListener('click', e => {
+  const g = e.target.closest('[data-go]'); if (g) { location.hash = g.dataset.go.slice(1); return; }
+  const tt = e.target.closest('[data-toast]'); if (tt) { toast(tt.dataset.toast); return; }
+  const so = e.target.closest('[data-sort]'); if (so) { document.querySelectorAll('#mtabs button').forEach(b => b.classList.toggle('on', b === so)); const k = so.dataset.sort; document.getElementById('mt').innerHTML = '<tr><th>代币</th><th>价格</th><th>24h</th><th>交易额</th><th>市值</th></tr>' + [...TOKENS].sort((a, b) => b[k] - a[k]).map(row).join(''); return; }
+  const w = e.target.closest('[data-w]'); if (w) { closeModal(); const btn = document.getElementById('connect'); btn.textContent = '0xDem0…F4ke'; btn.classList.add('g'); toast('演示:已模拟连接 ' + w.dataset.w); return; }
+});
+const toast = m => { const t = document.getElementById('toast'); t.textContent = m; t.classList.add('on'); clearTimeout(toast.t); toast.t = setTimeout(() => t.classList.remove('on'), 1800); };
+const closeModal = () => document.getElementById('walletModal').classList.remove('on');
+document.getElementById('connect').onclick = () => document.getElementById('walletModal').classList.add('on');
+document.getElementById('closeModal').onclick = closeModal;
+render();
+</script>
+</body>
+</html>

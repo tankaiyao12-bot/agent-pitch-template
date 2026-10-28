@@ -4,8 +4,11 @@
 Usage:
     python3 tools/capture.py https://example.com --id home --title "官网首页" --add
     python3 tools/capture.py https://example.com/app --id app --title "产品页" --mobile --add
+    python3 tools/capture.py https://example.com --id home --outline      # + page structure for a simulated demo
 
-Saves deck/assets/web-<id>.jpg (or .png) and, with --add, adds / updates the scene in
+Saves deck/assets/web-<id>.jpg (or .png). With --outline also writes source/site-<id>.md: title,
+navigation, headings, buttons, section texts and main colors, read from the rendered page — the
+reference for building a simulated clickable demo. With --add, adds / updates the scene in
 deck/deck.json → demo.scenes, with the URL (shown as an 「打开官网 ↗」 button) and today's date.
 
 Browser, in this order:
@@ -21,6 +24,8 @@ import shutil
 import subprocess
 import sys
 import tempfile
+from collections import Counter
+from html.parser import HTMLParser
 from pathlib import Path
 from urllib.parse import urlparse
 
@@ -102,6 +107,112 @@ def with_chrome(url, out, size, height, mobile):
     return height, out
 
 
+class Outline(HTMLParser):
+    """Collect what a person sees: title, nav links, headings, buttons, text blocks, colors."""
+    SKIP = {"script", "style", "noscript", "svg", "template"}
+
+    def __init__(self, base):
+        super().__init__(convert_charrefs=True)
+        self.base, self.stack, self.skip = base, [], 0
+        self.title, self.links, self.heads, self.buttons, self.texts = "", [], [], [], []
+        self.colors = Counter()
+        self.cur_link = None
+        self.cur_tag = None
+
+    def handle_starttag(self, tag, attrs):
+        a = dict(attrs)
+        if tag in self.SKIP:
+            self.skip += 1
+        self.stack.append(tag)
+        st = a.get("style") or ""
+        for c in __import__("re").findall(r"#[0-9a-fA-F]{6}\b|rgb\([^)]*\)", st):
+            self.colors[c.lower()] += 1
+        if tag == "a" and a.get("href"):
+            self.cur_link = {"href": a["href"], "text": ""}
+        if tag in ("h1", "h2", "h3", "button", "title"):
+            self.cur_tag = [tag, ""]
+
+    def handle_endtag(self, tag):
+        if tag in self.SKIP and self.skip:
+            self.skip -= 1
+        if tag == "a" and self.cur_link:
+            t = " ".join(self.cur_link["text"].split())
+            if t and len(t) < 60:
+                self.links.append((t, self.cur_link["href"], "nav" in self.stack or "header" in self.stack))
+            self.cur_link = None
+        if self.cur_tag and tag == self.cur_tag[0]:
+            t = " ".join(self.cur_tag[1].split())
+            if t:
+                {"title": lambda: setattr(self, "title", t), "button": lambda: self.buttons.append(t)}.get(
+                    tag, lambda: self.heads.append((tag, t)))()
+            self.cur_tag = None
+        if self.stack:
+            self.stack.pop()
+
+    def handle_data(self, d):
+        if self.skip:
+            return
+        if self.cur_link is not None:
+            self.cur_link["text"] += d
+        if self.cur_tag:
+            self.cur_tag[1] += d
+        t = " ".join(d.split())
+        if len(t) > 30 and (not self.stack or self.stack[-1] in ("p", "li", "span", "div", "td")):
+            self.texts.append(t)
+
+
+def outline_md(url, html, sid):
+    o = Outline(url)
+    o.feed(html)
+    css_colors = Counter(c.lower() for c in __import__("re").findall(r"#[0-9a-fA-F]{6}\b", html))
+    seen, nav, other = set(), [], []
+    for t, h, in_nav in o.links:
+        k = (t, h)
+        if k in seen:
+            continue
+        seen.add(k)
+        (nav if in_nav else other).append(f"- {t} → {h}")
+    lines = [f"# {sid}: {o.title or url}", "", f"source: {url}  ·  read {dt.date.today().isoformat()}", "",
+             "## Navigation (header / nav)", *(nav[:30] or ["(none found)"]), "",
+             "## Other links", *other[:40], "",
+             "## Headings", *[f"- {t.upper()}: {x}" for t, x in o.heads[:60]], "",
+             "## Buttons", *[f"- {b}" for b in dict.fromkeys(o.buttons).__iter__()][:40], "",
+             "## Text blocks (first 40)", *[f"- {x[:220]}" for x in dict.fromkeys(o.texts)][:40], "",
+             "## Colors seen (most used first)", ", ".join(c for c, _ in (o.colors + css_colors).most_common(12)) or "(none)"]
+    out = ROOT / "source" / f"site-{sid}.md"
+    out.parent.mkdir(exist_ok=True)
+    out.write_text("\n".join(lines) + "\n", encoding="utf-8")
+    return out
+
+
+def rendered_html(url):
+    """The page's HTML after its scripts ran (Playwright, else Chrome --dump-dom)."""
+    try:
+        from playwright.sync_api import sync_playwright
+        with sync_playwright() as p:
+            px = proxy()
+            b = p.chromium.launch(proxy={"server": px.replace("socks5h://", "socks5://")} if px else None)
+            pg = b.new_page(viewport={"width": DESKTOP[0], "height": DESKTOP[1]}, locale="zh-CN")
+            pg.goto(url, wait_until="domcontentloaded", timeout=45000)
+            try:
+                pg.wait_for_load_state("networkidle", timeout=12000)
+            except Exception:
+                pass
+            h = pg.content()
+            b.close()
+            return h
+    except ImportError:
+        chrome = find_chrome()
+        if not chrome:
+            raise RuntimeError("no browser found")
+        args = [chrome, "--headless=new", "--disable-gpu", "--virtual-time-budget=10000", "--dump-dom"]
+        if proxy():
+            args.append("--proxy-server=" + proxy().replace("socks5h://", "socks5://"))
+        with tempfile.TemporaryDirectory() as tmp:
+            r = subprocess.run(args + [f"--user-data-dir={tmp}/profile", url], capture_output=True, timeout=90)
+        return r.stdout.decode("utf-8", "replace")
+
+
 def add_scene(scene):
     deck_path = ROOT / "deck" / "deck.json"
     deck = json.loads(deck_path.read_text(encoding="utf-8"))
@@ -125,6 +236,7 @@ def main():
     ap.add_argument("--height", type=int, default=6000, help="max screenshot height in px (default 6000)")
     ap.add_argument("--mobile", action="store_true", help="phone-sized screenshot")
     ap.add_argument("--add", action="store_true", help="add / update the scene in deck/deck.json")
+    ap.add_argument("--outline", action="store_true", help="also write source/site-<id>.md (structure for a simulated demo)")
     a = ap.parse_args()
 
     url = a.url if a.url.startswith(("http://", "https://")) else "https://" + a.url
@@ -152,6 +264,11 @@ def main():
              "image": f"assets/{out.name}", "url": url, "captured": today, "addr": host,
              "fit": "scroll", **({"mobile": True} if a.mobile else {})}
     print(f"saved {out.relative_to(ROOT)}  ({out.stat().st_size // 1024} KB, {size[0]}×{h}px, via {how})")
+    if a.outline:
+        try:
+            print(f"outline {outline_md(url, rendered_html(url), sid).relative_to(ROOT)}")
+        except Exception as e:
+            print(f"outline failed: {e}")
     if a.add:
         add_scene(scene)
         print(f"demo scene \"{sid}\" written to deck/deck.json")
