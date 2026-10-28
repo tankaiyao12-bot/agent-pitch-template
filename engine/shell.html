@@ -1,0 +1,42 @@
+<!doctype html>
+<html lang="{{LANG}}">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<title>{{TITLE}}</title>
+<style>
+{{CSS}}
+</style>
+</head>
+<body>
+<div class="app">
+  <div class="top">
+    <div><span class="ico" aria-hidden="true" style="background:none;border:0"><i class="logo" style="width:44px;height:44px"></i></span></div>
+    <div class="seg" role="tablist"><button id="tChat" data-v="chat" aria-pressed="true"><span class="zh">对话</span><span class="en">Chat</span></button><button id="tDemo" data-v="demo" aria-pressed="false"><span class="zh">{{DEMO_ZH}}</span><span class="en">{{DEMO_EN}}</span><i>DEMO</i></button></div>
+    <div class="tr"><div class="pill" role="group" aria-label="Language"><button data-lang="zh" aria-pressed="true">中</button><button data-lang="en" aria-pressed="false">EN</button></div><span class="me" style="background:#fff;color:var(--fg);border:1px solid var(--edge)"><span class="zh">你</span><span class="en">You</span></span></div>
+  </div>
+  <section class="view on" id="vChat">
+    <div class="side"><div class="day" id="day"></div><div class="pg" id="pg"></div><div class="bar"><i id="pgb" style="width:0"></i></div></div>
+    <div class="col">
+      <div class="msgs" id="msgs" aria-live="polite"></div>
+      <div class="chips" id="chips"></div>
+      <div class="player idle" id="player"><div class="st"><b id="pst"></b><small id="psub"></small></div><div class="spd" id="spd" role="group" aria-label="speed"></div><button class="rs" id="restart" type="button" title="restart"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"><path d="M4 12a8 8 0 1 0 2.4-5.7M4 4v4.5h4.5"/></svg></button><button class="pp" id="pp" type="button" aria-label="play"></button><i class="tl" id="ptl"></i></div>
+    </div>
+    <div></div>
+  </section>
+  <section class="view" id="vDemo">
+    <div class="dside"><h3><span class="zh">{{DEMO_ZH}}</span><span class="en">{{DEMO_EN}}</span></h3><div class="dtabs" id="dtabs"></div></div>
+    <div class="dstage"><div class="browser">
+      <div class="bh"><span class="d"><i></i><i></i><i></i></span><span class="url" id="url"></span><span style="width:52px"></span></div>
+      <div class="screen" id="screen"></div>
+    </div></div>
+    <div class="dpad"></div>
+  </section>
+</div>
+<div class="ov" id="ov" hidden><div class="ovc" id="ovc"></div></div>
+<script type="application/json" id="deck">{{DECK}}</script>
+<script>
+{{JS}}
+</script>
+</body>
+</html>

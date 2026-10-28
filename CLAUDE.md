@@ -1,0 +1,1 @@
+Follow `skills/pitch-builder/SKILL.md` for any request to make or change the pitch. Edit only `deck/deck.json` and `deck/assets/`; validate with `python3 tools/validate.py` and build with `python3 tools/build.py`.

@@ -1,0 +1,59 @@
+{
+  "meta": {
+    "title": {"zh": "你的项目 · 商业计划", "en": "Your project · pitch"},
+    "langs": ["zh", "en"],
+    "defaultLang": "zh",
+    "output": "pitch"
+  },
+  "brand": {
+    "name": "YourBrand",
+    "agentName": {"zh": "YourBrand agent", "en": "YourBrand agent"},
+    "logo": "assets/logo.svg",
+    "accent": "#4f8cff",
+    "accentDark": "#1f5fd6"
+  },
+  "chapters": [
+    {
+      "id": "open",
+      "toc": {"zh": "开场", "en": "Opening"},
+      "say": [
+        {"zh": "这是一份占位 deck。把你的 PPT 交给 agent,它会按 skills/pitch-builder/SKILL.md 把这里换成你的内容。", "en": "This is a placeholder deck. Give your PPT to the agent and it will replace this with your content, following skills/pitch-builder/SKILL.md."}
+      ],
+      "ask": [{"zh": "看看效果", "en": "Show me"}],
+      "blocks": [
+        {"type": "title", "eyebrow": "YourBrand", "h": {"zh": "一句话说清<em>你是谁</em>。", "en": "One line on <em>who you are</em>."}, "lede": {"zh": "副标题:你解决什么问题,给谁。", "en": "Subtitle: what you solve, for whom."}},
+        {"type": "tiles", "items": [
+          {"label": {"zh": "指标 A", "en": "Metric A"}, "count": 120, "suffix": "+"},
+          {"label": {"zh": "指标 B", "en": "Metric B"}, "value": "$1.2M", "hl": true, "note": {"zh": "说明", "en": "note"}}
+        ]},
+        {"type": "source", "text": {"zh": "占位数据", "en": "placeholder data"}, "date": "YYYY-MM-DD"}
+      ]
+    },
+    {
+      "id": "problem",
+      "toc": {"zh": "问题", "en": "Problem"},
+      "say": [{"zh": "这一章讲用户的问题。", "en": "This chapter covers the user's problem."}],
+      "blocks": [
+        {"type": "title", "eyebrow": {"zh": "问题", "en": "Problem"}, "h": {"zh": "三个<em>痛点</em>。", "en": "Three <em>pains</em>."}},
+        {"type": "cards", "items": [
+          {"no": "01", "title": {"zh": "痛点一", "en": "Pain one"}, "desc": {"zh": "描述", "en": "description"}, "tone": "risk"},
+          {"no": "02", "title": {"zh": "痛点二", "en": "Pain two"}, "desc": {"zh": "描述", "en": "description"}, "tone": "risk"},
+          {"no": "03", "title": {"zh": "痛点三", "en": "Pain three"}, "desc": {"zh": "描述", "en": "description"}, "tone": "risk"}
+        ]}
+      ]
+    },
+    {
+      "id": "end",
+      "toc": {"zh": "下一步", "en": "Next steps"},
+      "say": [{"zh": "最后一章讲进度和下一步。", "en": "The last chapter covers progress and next steps."}],
+      "ask": [{"zh": "重来一遍", "en": "Start over", "restart": true}],
+      "blocks": [
+        {"type": "title", "eyebrow": {"zh": "进度", "en": "Roadmap"}, "h": {"zh": "现在在<em>第一阶段</em>。", "en": "We are in <em>phase one</em>."}},
+        {"type": "roadmap", "phases": [
+          {"title": {"zh": "阶段一", "en": "Phase one"}, "when": {"zh": "现在", "en": "now"}, "status": "live", "items": [{"zh": "已完成的事", "en": "what is done"}]},
+          {"title": {"zh": "阶段二", "en": "Phase two"}, "when": {"zh": "下一步", "en": "next"}, "status": "plan", "items": [{"zh": "接下来做的事", "en": "what comes next"}]}
+        ]}
+      ]
+    }
+  ]
+}
