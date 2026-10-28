@@ -16,8 +16,9 @@
    > 用这个模板把 `我的计划书.pptx` 做成 pitch。
 
 3. agent 会自动读取 `skills/pitch-builder/SKILL.md`(英文主版,规则写成 MUST / IF-THEN,中文对照见 `SKILL.zh.md`),依次:
-   - 拆解 PPT(文字、演讲者备注、表格、图表数据、图片)
+   - 拆解 PPT(文字、演讲者备注、表格、图表数据、图片、链接)
    - **先给你一份章节大纲确认**
+   - 把 PPT 里的项目官网截成长图,放进「项目官网」页(离线可看,联网时可点「打开官网 ↗」)
    - 写 `deck/deck.json` → 校验 → 打包成 `dist/pitch.html`
 4. 双击 `dist/pitch.html` 查看。不满意就直接跟 agent 说要改哪里,它改完重新打包。
 
@@ -31,6 +32,7 @@
 pip install -r requirements.txt                 # 只有拆 PPT 需要
 python3 tools/pptx_extract.py 我的计划书.pptx    # → source/slides.md + deck/assets/
 # 编辑 deck/deck.json(组件说明见 skills/pitch-builder/SKILL.md)
+python3 tools/capture.py https://项目官网 --id home --title "官网首页" --add   # 可选:官网截图
 python3 tools/validate.py                        # 检查
 python3 tools/build.py                           # → dist/pitch.html
 ```

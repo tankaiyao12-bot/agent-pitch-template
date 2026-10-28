@@ -1,6 +1,6 @@
 ---
 name: pitch-builder
-description: "把 PPT(.pptx)或文字材料做成「agent 对话式讲解」的 pitch,交付为一个本地 HTML 文件(dist/<name>.html),双击打开,不需要服务器、域名或网络。包括拆解 PPT、和用户确认章节大纲、用 21 种组件写 deck/deck.json、校验和打包。在本仓库里制作、修改或改版 pitch / 商业计划书 / 演示稿时使用。"
+description: "把 PPT(.pptx)或文字材料做成「agent 对话式讲解」的 pitch,交付为一个本地 HTML 文件(dist/<name>.html),双击打开,不需要服务器、域名或网络。包括拆解 PPT、和用户确认章节大纲、把项目官网截成离线演示页、用 21 种组件写 deck/deck.json、校验和打包。在本仓库里制作、修改或改版 pitch / 商业计划书 / 演示稿时使用。"
 version: 1.0.0
 note: "中文对照版。agent 执行以英文版 SKILL.md 为准;两版规则一致。"
 ---
@@ -35,7 +35,7 @@ languages:       {must_ask: [], safe_default: {langs: '["zh","en"]', english: "�
 chapter_outline: {must_ask: ["整份大纲的确认"], safe_default: {chapters: "6–12 章;一章讲一件事;讲同一件事的几页合并;目录页、致谢页不单独成章"}}
 numbers:         {must_ask: ["PPT 没写来源的数字的来源", "哪些是预测"], never_infer: ["除非用户要求,绝不四舍五入、换算币种或估算补图表缺口"]}
 status:          {must_ask: ["不确定某功能 / 里程碑是已上线还是计划中时"], never_infer: ["绝不把计划中的标成已上线"]}
-demo:            {safe_default: {"PPT 里的产品截图": "提议放进演示页"}, never_infer: ["绝不加用户没给的网址场景"]}
+demo:            {must_ask: ["要截哪些项目官网(列出 PPT 里找到的链接)"], safe_default: {"PPT 里的产品截图": "提议放进演示页", "页面": "桌面版,顶部 6000 像素"}, never_infer: ["绝不截取或链接 PPT 里没有、用户也没提的网站"]}
 output_name:     {safe_default: {output: "pitch"}}
 ```
 
@@ -45,7 +45,7 @@ output_name:     {safe_default: {output: "pitch"}}
 
 1. **拆解**
    用户给了 `.pptx` 时运行 `python3 tools/pptx_extract.py "<pptx 路径>"`。报错 `python-pptx is missing` 时运行 `pip install python-pptx`(或 `pip3 install python-pptx`)后重试。
-   完整读 `source/slides.md`:每页的标题、带层级的正文、演讲者备注、表格、图表数据,图片已存到 `deck/assets/sNN-K.*`。
+   完整读 `source/slides.md`:每页的标题、带层级的正文、演讲者备注、表格、图表数据、链接,图片已存到 `deck/assets/sNN-K.*`。拆解工具也会把找到的所有链接列出来。
    没有 PPT 时,向用户要材料(文字、数字、截图),然后进入第 2 步。
 
 2. **回读大纲,然后停下等确认**
@@ -57,6 +57,9 @@ output_name:     {safe_default: {output: "pitch"}}
    | 2 | …    | 第 2–3 页 | <一句话> | cards |
    品牌:<name> · 主色 <#hex>  ← 取自 PPT
    语言:中文 + 英文            ← 默认
+   官网截图(放进「项目官网」页,离线可看,带「打开官网 ↗」按钮):
+     - https://example.com        ← 取自 PPT 第 1 页
+     - https://example.com/app    ← 取自 PPT 第 6 页
    需要你补充:
      - 第 4 页「营收 860 万」的来源和年份  [缺,请告诉我]
      - 「2026 1,500 万」是预测吗?         [缺,请告诉我]
@@ -70,6 +73,10 @@ output_name:     {safe_default: {output: "pitch"}}
    - `ask`:每章 1–2 个追问按钮。普通追问 = 进入下一章;`reply` = 就地回答(适合「数字哪来的?」);最后一章放 `{"zh": "重来一遍", "en": "Start over", "restart": true}`。
    - 图片用 `assets/<文件名>`(相对 `deck/`)。PPT 有 logo 时替换占位的 `assets/logo.svg`。
    - 删掉模板自带的占位章节。
+
+   - 官网截图:对用户确认的每个网站运行
+     `python3 tools/capture.py <网址> --id <短 id> --title "<标题>" --add`
+     (要手机版加 `--mobile`)。它会保存 `deck/assets/web-<id>.*`,并把带网址和当天日期的演示场景写进 deck。失败时把原因和它打印的安装命令告诉用户;**绝不**用别处找来的图顶替。某章可以用 `{"zh": "看官网", "en": "See the website", "jump": true, "scene": "<短 id>"}` 跳过去。
 
 4. **校验**:`python3 tools/validate.py`。每个 `error` 都要修;每个 `warning` 都要看,除非用户另有决定,否则修掉。
 
@@ -105,7 +112,10 @@ chapters: # 6–12 章
     blocks: [ … ]                   # 展示卡,见「组件」
 demo:     # 可选:带浏览器框的「产品」页
   label: text
-  scenes: [{id: home, title: text, desc: text, image: "assets/s05-1.png", addr: "app.example.com"}]   # 或 file: "demo/home.html",或 url: "https://…"
+  scenes:
+    - {id: home, title: text, desc: text, image: "assets/web-home.jpg", fit: scroll, url: "https://example.com", captured: "2026-10-28", addr: "example.com"}   # 由 tools/capture.py 写入
+    - {id: app, title: text, image: "assets/s05-1.png"}            # PPT 里的截图
+    # 也可以:file: "demo/home.html"(打包进去),或只写 url(需联网;很多网站禁止被嵌入)
 ```
 
 `text` = 字符串,或 `{"zh": "…", "en": "…"}`;可以含 `<b>`、`<em>`、`<br>`。两种语言时,每段文字都**必须**两种都有。
@@ -154,6 +164,7 @@ html:     {html: text}                     # 只作兜底
 ## 常见问题
 
 - 打开是空白:运行 `python3 tools/validate.py`,多半是 JSON 的逗号或引号。
+- 官网截图失败:提示找不到浏览器时运行 `pip install playwright && playwright install chromium`(或安装 Google Chrome)后重试。网站拦截机器人或需要登录时,请用户自己提供截图。
 - 图片不显示:路径要相对 `deck/`(如 `assets/s03-1.png`),且文件存在。
 - 某页字太小:这一章组件太多,拆章。
 - 用户说在微信 / 飞书里打开有安全提示:告诉他「那是 App 内置浏览器的提示,点右上角『在浏览器打开』就行。」

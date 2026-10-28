@@ -1,6 +1,6 @@
 ---
 name: pitch-builder
-description: "Turn a PowerPoint (.pptx) or written material into an interactive 'agent talks you through it' pitch, delivered as ONE local HTML file (dist/<name>.html) that opens with a double click — no server, domain or network. Covers extracting the PPT, confirming a chapter outline with the user, writing deck/deck.json from 21 block types, validating and building. Use for any request to make, update or restyle a pitch / business plan / deck in this repository."
+description: "Turn a PowerPoint (.pptx) or written material into an interactive 'agent talks you through it' pitch, delivered as ONE local HTML file (dist/<name>.html) that opens with a double click — no server, domain or network. Covers extracting the PPT, confirming a chapter outline with the user, capturing the project website as an offline demo, writing deck/deck.json from 21 block types, validating and building. Use for any request to make, update or restyle a pitch / business plan / deck in this repository."
 version: 1.0.0
 requires:
   - python3   # 3.9+; tools/ use only the standard library, except pptx_extract.py (python-pptx)
@@ -43,7 +43,7 @@ languages:       {must_ask: [], safe_default: {langs: '["zh","en"]', english: "t
 chapter_outline: {must_ask: ["confirmation of the whole outline"], safe_default: {chapters: "6–12; one chapter = one point; merge slides that make the same point; drop agenda / thank-you slides"}}
 numbers:         {must_ask: ["source of any number the PPT does not source", "which figures are projections"], never_infer: ["NEVER round, convert currencies or fill a chart gap by estimation unless the user says so"]}
 status:          {must_ask: ["IF it is unclear whether a feature / milestone is live or planned"], never_infer: ["NEVER mark a planned item as live"]}
-demo:            {safe_default: {"product screenshots in the PPT": "offer them as demo scenes"}, never_infer: ["NEVER add a url scene the user did not give"]}
+demo:            {must_ask: ["which project websites to capture (list the links found in the PPT)"], safe_default: {"product screenshots in the PPT": "offer them as demo scenes", "page": "desktop, top 6000 px"}, never_infer: ["NEVER capture or link a site that is not in the PPT or named by the user"]}
 output_name:     {safe_default: {output: "pitch"}}
 ```
 
@@ -53,7 +53,7 @@ A missing `must_ask` item MUST NOT be filled by a guess or a default, BECAUSE a 
 
 1. **Extract**
    IF the user gave a `.pptx` THEN run `python3 tools/pptx_extract.py "<path to pptx>"`. IF it fails with `python-pptx is missing` THEN run `pip install python-pptx` (or `pip3 install python-pptx`) and retry.
-   Read `source/slides.md` completely: per slide the title, text with bullet levels, speaker notes, tables, chart data, and pictures already saved to `deck/assets/sNN-K.*`.
+   Read `source/slides.md` completely: per slide the title, text with bullet levels, speaker notes, tables, chart data, links, and pictures already saved to `deck/assets/sNN-K.*`. The extractor also prints every link it found.
    IF there is no PPT THEN ask the user for their material (text, numbers, screenshots) and continue with step 2.
 
 2. **Outline read-back, then STOP and wait**
@@ -65,6 +65,9 @@ A missing `must_ask` item MUST NOT be filled by a guess or a default, BECAUSE a 
    | 2 | …    | 第 2–3 页 | <一句话> | cards |
    品牌:<name> · 主色 <#hex>  ← 取自 PPT
    语言:中文 + 英文            ← 默认
+   官网截图(放进「项目官网」页,离线可看,带「打开官网 ↗」按钮):
+     - https://example.com        ← 取自 PPT 第 1 页
+     - https://example.com/app    ← 取自 PPT 第 6 页
    需要你补充:
      - 第 4 页「营收 860 万」的来源和年份  [缺,请告诉我]
      - 「2026 1,500 万」是预测吗?         [缺,请告诉我]
@@ -78,6 +81,10 @@ A missing `must_ask` item MUST NOT be filled by a guess or a default, BECAUSE a 
    - `ask`: 1–2 follow-up buttons per chapter. A plain ask goes to the next chapter; `reply` answers in place (good for 「数字哪来的?」); the last chapter gets `{"zh": "重来一遍", "en": "Start over", "restart": true}`.
    - Pictures: reference them as `assets/<file>` (relative to `deck/`). Replace the placeholder `assets/logo.svg` with the real logo when the PPT has one.
    - Remove all placeholder chapters from the template's starter deck.
+
+   - Website screenshots: for each site the user confirmed, run
+     `python3 tools/capture.py <url> --id <short-id> --title "<title>" --add`
+     (add `--mobile` for a phone view). It saves `deck/assets/web-<id>.*` and writes the demo scene with the URL and today's date. IF it fails THEN tell the user the reason and the install line it prints; NEVER replace a failed capture with a picture from elsewhere. A chapter can jump there with `{"zh": "看官网", "en": "See the website", "jump": true, "scene": "<short-id>"}`.
 
 4. **Validate**: `python3 tools/validate.py`. Fix every `error`. Read every `warning`; fix it unless the user decided otherwise.
 
@@ -113,7 +120,10 @@ chapters: # 6–12 items
     blocks: [ … ]                   # the page; see Blocks
 demo:     # optional: a "product" view with a browser frame
   label: text
-  scenes: [{id: home, title: text, desc: text, image: "assets/s05-1.png", addr: "app.example.com"}]   # or file: "demo/home.html", or url: "https://…"
+  scenes:
+    - {id: home, title: text, desc: text, image: "assets/web-home.jpg", fit: scroll, url: "https://example.com", captured: "2026-10-28", addr: "example.com"}   # written by tools/capture.py
+    - {id: app, title: text, image: "assets/s05-1.png"}            # a screenshot from the PPT
+    # also possible: file: "demo/home.html" (bundled) or url only (needs internet; many sites refuse to be embedded)
 ```
 
 `text` = a string, or `{"zh": "…", "en": "…"}`; may contain `<b>`, `<em>`, `<br>`. With two languages every text MUST have both.
@@ -162,6 +172,7 @@ customer quote: quote
 ## Troubleshooting
 
 - Blank page after opening: run `python3 tools/validate.py`; usually a JSON comma or quote.
+- Website capture fails: IF the message says no browser was found THEN `pip install playwright && playwright install chromium` (or install Google Chrome), then retry. IF the site blocks bots or needs a login THEN ask the user for screenshots instead.
 - Picture missing: the path must be relative to `deck/` (e.g. `assets/s03-1.png`) and the file must exist.
 - Text too small on a page: too many blocks in that chapter; split it.
 - The user says WeChat / Feishu shows a security notice when opening the file: tell them 「那是 App 内置浏览器的提示,点右上角『在浏览器打开』就行。」
