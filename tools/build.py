@@ -21,7 +21,7 @@ ROOT = Path(__file__).resolve().parent.parent
 sys.path.insert(0, str(ROOT / "tools"))
 import validate  # noqa: E402
 
-IMAGE_KEYS = {"logo", "src", "image"}
+IMAGE_KEYS = {"logo", "src", "image", "imageMobile"}
 # A bundled demo page runs as srcdoc, where "#/page" links would resolve against the outer file and be
 # blocked. This keeps in-page links inside the demo.
 HASH_NAV = ("<script>document.addEventListener('click',function(e){var a=e.target.closest&&e.target.closest('a[href^=\"#\"]');"

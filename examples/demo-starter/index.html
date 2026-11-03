@@ -8,6 +8,7 @@
   Starter for a SIMULATED clickable demo of a project website.
   Copy to deck/demo/<id>.html, then rebuild the pages to look like the real site
   (use source/site-<id>.md for navigation / headings / texts and the screenshot for colors and layout).
+  The page must also work at 390 px wide (phones show it in a phone frame); keep the @media block below.
   Rules (checked by tools/validate.py):
     - keep the banner (#sim-banner) with 「模拟演示 · 非官方页面 · 数据为虚构」
     - everything inline: no external scripts, styles, images, fonts, fetch, WebSocket or outbound links
@@ -34,6 +35,21 @@ table{width:100%;border-collapse:collapse}th,td{text-align:left;padding:12px 10p
 .wallet{display:flex;align-items:center;gap:10px;padding:12px;border:1px solid var(--line);border-radius:10px;margin:8px 0;cursor:pointer}.wallet:hover{border-color:var(--acc)}
 .toast{position:fixed;bottom:24px;left:50%;transform:translateX(-50%);background:var(--fg);color:var(--bg);padding:10px 18px;border-radius:999px;font-weight:700;display:none;z-index:70}.toast.on{display:block}
 .spark{width:100%;height:160px}
+.tablewrap{overflow-x:auto}
+/* phones: the pitch shows this page at 390×844 inside a phone frame — keep this block when you rebuild the page */
+@media (max-width:760px){
+  #sim-banner{font-size:10.5px;padding:4px 8px}
+  header{top:22px;gap:10px;padding:10px 14px;flex-wrap:wrap}
+  .logo{font-size:16px}
+  nav{order:3;flex-basis:100%;overflow-x:auto;scrollbar-width:none}nav::-webkit-scrollbar{display:none}nav a{white-space:nowrap;padding:5px 10px}
+  .btn{padding:8px 12px}
+  main{padding:16px}
+  .hero{padding:20px 0 12px}.hero h1{font-size:28px}.hero p{font-size:15px}
+  .stats{grid-template-columns:repeat(2,1fr);gap:8px}.stat b{font-size:19px}
+  .grid2{grid-template-columns:1fr}
+  th,td{padding:10px 6px;font-size:13px}
+  .modal .box{width:calc(100% - 32px)}
+}
 </style>
 </head>
 <body>
@@ -66,9 +82,9 @@ const row = t => `<tr class="row" data-go="#/token/${t.s}"><td><b>${t.s}</b></td
 const PAGES = {
   '/': () => `<section class="hero"><h1>一句话讲清这个项目</h1><p>把官网首页的主标题、副标题和主按钮照搬到这里(见 source/site-&lt;id&gt;.md)。</p><button class="btn" data-go="#/swap">开始兑换</button> <button class="btn g" data-go="#/market">看市场</button></section>
     <div class="stats">${STATS.map(([k, v]) => `<div class="stat"><small>${k}</small><b>${v}</b></div>`).join('')}</div>
-    <div class="panel"><h3 style="margin-top:0">热门</h3><table><tr><th>代币</th><th>价格</th><th>24h</th><th>交易额</th><th>市值</th></tr>${TOKENS.slice(0, 5).map(row).join('')}</table></div>`,
+    <div class="panel tablewrap"><h3 style="margin-top:0">热门</h3><table><tr><th>代币</th><th>价格</th><th>24h</th><th>交易额</th><th>市值</th></tr>${TOKENS.slice(0, 5).map(row).join('')}</table></div>`,
   '/market': () => `<h2>市场</h2><div class="tabs" id="mtabs"><button class="on" data-sort="vol">按交易额</button><button data-sort="chg">按涨幅</button><button data-sort="cap">按市值</button></div>
-    <div class="panel"><table id="mt"><tr><th>代币</th><th>价格</th><th>24h</th><th>交易额</th><th>市值</th></tr>${[...TOKENS].sort((a, b) => b.vol - a.vol).map(row).join('')}</table></div>`,
+    <div class="panel tablewrap"><table id="mt"><tr><th>代币</th><th>价格</th><th>24h</th><th>交易额</th><th>市值</th></tr>${[...TOKENS].sort((a, b) => b.vol - a.vol).map(row).join('')}</table></div>`,
   '/swap': () => `<div class="grid2"><div class="panel">${spark(TOKENS[0].series, TOKENS[0].chg >= 0)}</div><div class="panel"><h3 style="margin-top:0">兑换</h3>
     <div class="field"><input value="1.00" aria-label="amount"><b>BNB</b></div><div class="field"><input value="${(1 / TOKENS[0].price * 600).toFixed(2)}" aria-label="receive"><b>${TOKENS[0].s}</b></div>
     <button class="btn" style="width:100%;margin-top:8px" data-toast="演示:没有真的交易">兑换</button></div></div>`,

@@ -4,6 +4,7 @@
 Usage:
     python3 tools/capture.py https://example.com --id home --title "官网首页" --add
     python3 tools/capture.py https://example.com/app --id app --title "产品页" --mobile --add
+    python3 tools/capture.py https://example.com --id home --title "官网首页" --both --add   # desktop + phone in one scene
     python3 tools/capture.py https://example.com --id home --outline      # + page structure for a simulated demo
 
 Saves deck/assets/web-<id>.jpg (or .png). With --outline also writes source/site-<id>.md: title,
@@ -87,6 +88,9 @@ def find_chrome():
 
 
 def with_chrome(url, out, size, height, mobile):
+    if mobile:
+        # desktop Chrome windows have a minimum width (~500 px), so a real 390 px phone layout needs Playwright
+        raise RuntimeError("phone screenshots need Playwright:  pip install playwright && playwright install chromium")
     chrome = find_chrome()
     if not chrome:
         raise RuntimeError("no browser found")
@@ -220,7 +224,9 @@ def add_scene(scene):
     scenes = demo.setdefault("scenes", [])
     for i, s in enumerate(scenes):
         if s.get("id") == scene["id"]:
-            scenes[i] = {**s, **scene}
+            # keep the user's own fields (title edits, desc…), but never a stale screenshot from an earlier capture
+            kept = {k: v for k, v in s.items() if k not in ("image", "imageMobile", "captured", "fit", "mobile")}
+            scenes[i] = {**kept, **scene}
             break
     else:
         scenes.append(scene)
@@ -235,6 +241,7 @@ def main():
     ap.add_argument("--desc", default="", help="one line under the title")
     ap.add_argument("--height", type=int, default=6000, help="max screenshot height in px (default 6000)")
     ap.add_argument("--mobile", action="store_true", help="phone-sized screenshot")
+    ap.add_argument("--both", action="store_true", help="desktop + phone screenshots in one scene (phones show the phone one)")
     ap.add_argument("--add", action="store_true", help="add / update the scene in deck/deck.json")
     ap.add_argument("--outline", action="store_true", help="also write source/site-<id>.md (structure for a simulated demo)")
     a = ap.parse_args()
@@ -247,22 +254,36 @@ def main():
     out = assets / f"web-{sid}.jpg"
     size = MOBILE if a.mobile else DESKTOP
 
-    try:
-        h = with_playwright(url, out, size, a.height, a.mobile)
-        how = "playwright"
-    except ImportError:
+    def shoot(target, sz, mobile):
         try:
-            h, out = with_chrome(url, out, size, min(a.height, 4000), a.mobile)
-            how = "chrome"
+            return with_playwright(url, target, sz, a.height, mobile), target, "playwright"
+        except ImportError:
+            try:
+                hh, t2 = with_chrome(url, target, sz, min(a.height, 4000), mobile)
+                return hh, t2, "chrome"
+            except Exception as e:
+                sys.exit(f"capture failed: {e}. Install a browser for screenshots:  pip install playwright && playwright install chromium")
         except Exception as e:
-            sys.exit(f"capture failed: {e}. Install a browser for screenshots:  pip install playwright && playwright install chromium")
-    except Exception as e:
-        sys.exit(f"capture failed for {url}: {e}")
+            sys.exit(f"capture failed for {url}: {e}")
+
+    h, out, how = shoot(out, size, a.mobile)
+    mob = None
+    if a.both and not a.mobile:
+        try:
+            mh = with_playwright(url, assets / f"web-{sid}-m.jpg", MOBILE, a.height, True)
+            mob = assets / f"web-{sid}-m.jpg"
+            print(f"saved {mob.relative_to(ROOT)}  ({mob.stat().st_size // 1024} KB, phone {MOBILE[0]}×{mh}px)")
+        except ImportError:
+            print("phone screenshot skipped: it needs Playwright (pip install playwright && playwright install chromium). "
+                  "Phones will show the desktop screenshot instead.")
+        except Exception as e:
+            print(f"phone screenshot skipped: {e}. Phones will show the desktop screenshot instead.")
 
     today = dt.date.today().isoformat()
     scene = {"id": sid, "title": a.title or host, "desc": a.desc or {"zh": f"截于 {today}", "en": f"captured {today}"},
              "image": f"assets/{out.name}", "url": url, "captured": today, "addr": host,
-             "fit": "scroll", **({"mobile": True} if a.mobile else {})}
+             "fit": "scroll", **({"mobile": True} if a.mobile else {}),
+             **({"imageMobile": f"assets/{mob.name}"} if mob else {})}
     print(f"saved {out.relative_to(ROOT)}  ({out.stat().st_size // 1024} KB, {size[0]}×{h}px, via {how})")
     if a.outline:
         try:

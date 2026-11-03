@@ -21,7 +21,7 @@ metadata:
 
 ## What the user gets
 
-One HTML file. Double-click opens it in a browser: an agent "speaks" each chapter line by line, then shows a page (numbers, charts, maps, scenario cards, roadmap); auto-play, pause, speed, chapter menu and a 中 / EN switch are built in. The user shares it by sending the file. To see a finished example: `python3 tools/build.py examples/tradefons` → open `dist/tradefons-example.html`.
+One HTML file. Double-click opens it in a browser: an agent "speaks" each chapter line by line, then shows a page (numbers, charts, maps, scenario cards, roadmap); auto-play, pause, speed, chapter menu and a 中 / EN switch are built in. It adapts to phones: on a screen 760 px wide or less, pages keep full size and scroll inside the conversation, demo scenes become a swipeable row, and HTML demos run in a phone frame. The user shares it by sending the file. To see a finished example: `python3 tools/build.py examples/tradefons` → open `dist/tradefons-example.html`.
 
 ## Hard rules
 
@@ -84,7 +84,7 @@ A missing `must_ask` item MUST NOT be filled by a guess or a default, BECAUSE a 
 
    - Website screenshots: for each site the user confirmed, run
      `python3 tools/capture.py <url> --id <short-id> --title "<title>" --add`
-     (add `--mobile` for a phone view). It saves `deck/assets/web-<id>.*` and writes the demo scene with the URL and today's date. IF it fails THEN tell the user the reason and the install line it prints; NEVER replace a failed capture with a picture from elsewhere. A chapter can jump there with `{"zh": "看官网", "en": "See the website", "jump": true, "scene": "<short-id>"}`.
+     (add `--both` to also save a phone screenshot: phones then show the phone version — this needs Playwright, without it only the desktop one is saved; `--mobile` for a phone view only). It saves `deck/assets/web-<id>.*` and writes the demo scene with the URL and today's date. IF it fails THEN tell the user the reason and the install line it prints; NEVER replace a failed capture with a picture from elsewhere. A chapter can jump there with `{"zh": "看官网", "en": "See the website", "jump": true, "scene": "<short-id>"}`.
 
 4. **Validate**: `python3 tools/validate.py`. Fix every `error`. Read every `warning`; fix it unless the user decided otherwise.
 
@@ -104,6 +104,7 @@ Hard rules (checked by `tools/validate.py`; the build stops on any of them):
 - NEVER add a field that asks for a password, private key or seed phrase. "Connect wallet" / "sign in" only pretend (show a fake address such as `0xDem0…F4ke`).
 - All numbers are invented and look invented (round, clearly sample). NEVER copy live figures from the site into the mock as if they were current.
 - NEVER publish or host the mock; it lives only inside the user's HTML file.
+- MUST work at 390 px wide, BECAUSE phones show the mock at 390×844 inside a phone frame. The starter is already responsive; keep its `@media (max-width:760px)` block and check the page at that width.
 
 Steps:
 1. In the outline read-back, list the pages to mock (3–5: usually home + the main product pages from the site's navigation) and wait for 「确认」.

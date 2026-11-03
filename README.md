@@ -4,6 +4,8 @@
 
 **最终产出是一个本地 HTML 文件**:双击就能在浏览器里打开,不需要服务器、域名,也不用联网。要给别人看,直接发这个文件。
 
+**电脑和手机都适配**:手机上(屏宽 760 以下)展示卡按原大显示、在对话里往下翻,演示页的场景变成可横滑的一排,网页类演示放进手机外框里显示。
+
 样例:运行 `python3 tools/build.py examples/tradefons`,打开 `dist/tradefons-example.html`。这是 tradefons 商业计划的脱敏版,里面的市场数字是 2026-10-27 的公开数据,只用来演示格式。
 
 ## 用法:交给你的 AI agent
@@ -33,7 +35,7 @@
 pip install -r requirements.txt                 # 只有拆 PPT 需要
 python3 tools/pptx_extract.py 我的计划书.pptx    # → source/slides.md + deck/assets/
 # 编辑 deck/deck.json(组件说明见 skills/pitch-builder/SKILL.md)
-python3 tools/capture.py https://项目官网 --id home --title "官网首页" --add   # 可选:官网截图
+python3 tools/capture.py https://项目官网 --id home --title "官网首页" --both --add   # 可选:官网截图(--both 同时截手机版,需要 Playwright)
 python3 tools/validate.py                        # 检查
 python3 tools/build.py                           # → dist/pitch.html
 ```

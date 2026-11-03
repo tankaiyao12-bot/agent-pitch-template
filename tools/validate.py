@@ -173,6 +173,7 @@ def check(deck_path: Path):
             if not (s.get("image") or s.get("file") or s.get("url")):
                 errors.append(f"demo.scenes[{k}]: give one of image / file / url")
             asset(s.get("image"), f"demo.scenes[{k}].image")
+            asset(s.get("imageMobile"), f"demo.scenes[{k}].imageMobile")
             if s.get("url") and not str(s["url"]).startswith(("http://", "https://")):
                 errors.append(f"demo.scenes[{k}].url: must start with http:// or https://")
             if s.get("fit") and s["fit"] not in ("scroll", "contain"):

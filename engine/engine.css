@@ -276,3 +276,34 @@ button{font:inherit;color:inherit}
 .demo-scroll{position:absolute;inset:0;overflow:auto;background:#fff}.demo-scroll img{display:block;width:100%;height:auto}.demo-scroll.m{background:#f2f2f7}.demo-scroll.m img{max-width:390px;margin:0 auto;box-shadow:0 0 0 1px var(--edge)}
 #openlive[hidden]{display:none}
 .simtag{position:absolute;right:10px;bottom:10px;z-index:2;background:#ffd23f;color:#1a1a1a;font:700 11px var(--body);padding:4px 10px;border-radius:999px;pointer-events:none;box-shadow:0 2px 8px rgba(0,0,0,.25)}
+/* ===== phones (from the tradefons pitch H5 version, 11-01) =====
+   chat: pages keep full size and scroll inside the conversation instead of shrinking to fit the screen;
+   demo: scenes become a horizontal chip row; HTML demos run at 390×844 inside a phone frame, scaled to fit */
+@media (max-width:760px){
+ .app{padding-left:max(10px,env(safe-area-inset-left,0px));padding-right:max(10px,env(safe-area-inset-right,0px))}
+ .top{height:60px}
+ #vDemo.on{display:flex!important;flex-direction:column;gap:8px;padding-bottom:calc(8px + env(safe-area-inset-bottom,0px))}
+ #vDemo .dside{flex:none;padding:0;position:relative}
+ #vDemo .dside h3{display:none}
+ #vDemo .dtabs{flex-direction:row;overflow-x:auto;gap:6px;scrollbar-width:none;-webkit-overflow-scrolling:touch;padding:2px 24px 2px 2px;-webkit-mask-image:linear-gradient(90deg,#000 85%,transparent);mask-image:linear-gradient(90deg,#000 85%,transparent)}
+ #vDemo .dtabs::-webkit-scrollbar{display:none}
+ #vDemo .dtabs button{flex:none;flex-direction:row;align-items:center;gap:6px;padding:6px 11px!important;font-size:13px!important;border-radius:999px;background:var(--glass2);border:1px solid var(--edge);white-space:nowrap}
+ #vDemo .dtabs button small{display:none!important}
+ #vDemo .dtabs button .t{white-space:nowrap;font-size:13px!important;height:auto;line-height:1.3}
+ #vDemo .dtabs button .t i{font-size:10px!important;margin-right:2px}
+ #vDemo .dtabs button[aria-pressed=true]{background:var(--fg);color:#fff}
+ #vDemo .dstage{flex:1;min-height:0;padding:0;container-type:normal;align-items:stretch}
+ #vDemo .browser{width:100%!important;height:100%!important;border-radius:18px;max-width:520px;margin:0 auto}
+ #vDemo .bh{padding:5px 8px;gap:6px}
+ #vDemo .bh .d{display:none}
+ #vDemo .bh .url{font-size:11px;padding:4px 10px}
+ #vDemo .bh a{font-size:11.5px;padding:3px 8px}
+ #vDemo .screen.phone{background:transparent!important;overflow:visible!important}
+ #vDemo .browser.phone{background:transparent!important;border:0!important;box-shadow:none!important}
+ #vDemo .screen.phone iframe{position:absolute;border:0;border-radius:44px;box-shadow:0 0 0 10px #111,0 0 0 11px #2c2c2e,0 20px 50px rgba(0,0,0,.35)}
+ #vDemo .screen.phone .simtag{right:auto;left:50%;transform:translateX(-50%);bottom:2px}
+ .cardb{zoom:1!important}
+}
+@media (max-width:420px){#spd{display:none!important}}
+@media (max-width:760px){.g2{grid-template-columns:1fr!important}.flow,.road4{grid-template-columns:repeat(2,minmax(0,1fr))!important}.ring{grid-template-columns:1fr!important}.donut{grid-template-columns:minmax(0,130px) minmax(0,1fr)}}
+@media (max-width:420px){.flow,.road4{grid-template-columns:1fr!important}}
